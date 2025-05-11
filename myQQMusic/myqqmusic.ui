@@ -39,16 +39,16 @@
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>5</number>
+       <number>10</number>
       </property>
       <property name="topMargin">
-       <number>5</number>
+       <number>10</number>
       </property>
       <property name="rightMargin">
-       <number>5</number>
+       <number>10</number>
       </property>
       <property name="bottomMargin">
-       <number>5</number>
+       <number>10</number>
       </property>
       <item>
        <widget class="QWidget" name="head" native="true">
@@ -233,12 +233,12 @@
 
 QPushButton:hover
 {
-	background-color:rgba(0, 0, 230, 0.5);
+	background-color:rgba(0, 200, 230, 0.5);
 }</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -247,7 +247,7 @@ QPushButton:hover
                 <number>0</number>
                </property>
                <property name="rightMargin">
-                <number>0</number>
+                <number>15</number>
                </property>
                <property name="bottomMargin">
                 <number>0</number>
@@ -358,6 +358,10 @@ QPushButton:hover
                   <string notr="true">#quit
 {
 	background-image: url(&quot;:/images/quit.png&quot;);
+}
+#quit:hover
+{
+	background-color: rgb(255, 0, 0);
 }</string>
                  </property>
                  <property name="text">

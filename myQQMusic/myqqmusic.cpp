@@ -11,6 +11,8 @@ myQQMusic::myQQMusic(QWidget *parent)
     InitUi();
     // 初始化信号
     connectSignalAndSlot();
+
+
 }
 
 myQQMusic::~myQQMusic()
@@ -84,6 +86,7 @@ void myQQMusic::mousePressEvent(QMouseEvent *event)
         dragPosition = event->globalPos() - frameGeometry().topLeft();
         return;
     }
+
     QWidget::mousePressEvent(event);
 }
 

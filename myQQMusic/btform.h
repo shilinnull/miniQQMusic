@@ -2,6 +2,7 @@
 #define BTFORM_H
 
 #include <QWidget>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class BtForm;
@@ -17,11 +18,18 @@ public:
 
     // 设置图标 文字 id
     void setIconTextId(const QString& btIcon, const QString& text, int pageid);
-
     // 获取id
     int getId();
     // 清除背景颜色
     void clearBg();
+
+    // linebox动画起伏效果
+    QPropertyAnimation *animationLine1;
+    QPropertyAnimation *animationLine2;
+    QPropertyAnimation *animationLine3;
+    QPropertyAnimation *animationLine4;
+    void setline1Animal();
+
 
 
 signals:

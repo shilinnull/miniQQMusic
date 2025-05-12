@@ -23,12 +23,15 @@ public:
     // 清除背景颜色
     void clearBg();
 
-    // linebox动画起伏效果
+    // 设置linebox动画起伏效果
     QPropertyAnimation *animationLine1;
     QPropertyAnimation *animationLine2;
     QPropertyAnimation *animationLine3;
     QPropertyAnimation *animationLine4;
     void setline1Animal();
+
+    // 显⽰动画效果
+//    void showAnimal();
 
 
 

@@ -12,7 +12,9 @@ myQQMusic::myQQMusic(QWidget *parent)
     // 初始化信号
     connectSignalAndSlot();
 
-
+//    // 本地下载BtForm动画默认显⽰
+//    ui->local->showAnimal();
+//    ui->stackedWidget->setCurrentIndex(4);
 }
 
 myQQMusic::~myQQMusic()

@@ -10,6 +10,13 @@ BtForm::BtForm(QWidget *parent) :
     // 设置linex动画效果
     setline1Animal();
 
+    // 隐藏lineBox中的动画效果
+//    ui->line1->hide();
+//    ui->line2->hide();
+//    ui->line3->hide();
+//    ui->line4->hide();
+
+
 }
 
 BtForm::~BtForm()
@@ -81,6 +88,11 @@ void BtForm::setline1Animal()
     animationLine4->start();
 }
 
+//void BtForm::showAnimal()
+//{
+//    ui->lineBox->show();
+//}
+
 void BtForm::mousePressEvent(QMouseEvent *event)
 {
     (void)event;
@@ -88,6 +100,7 @@ void BtForm::mousePressEvent(QMouseEvent *event)
     // 鼠标点击后，设置样式
     // 背景变成绿色，文字变成白色
     ui->btStyle->setStyleSheet("#btStyle{ background:rgb(170, 170, 255);} #btText{ color:#F6F6F6;}");
+
 
     // 给myQQMusic发送信号
     emit click(this->pageId);

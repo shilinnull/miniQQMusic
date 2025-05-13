@@ -1,6 +1,7 @@
 #include "myqqmusic.h"
 #include "ui_myqqmusic.h"
 
+
 myQQMusic::myQQMusic(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::myQQMusic)
@@ -12,9 +13,6 @@ myQQMusic::myQQMusic(QWidget *parent)
     // 初始化信号
     connectSignalAndSlot();
 
-//    // 本地下载BtForm动画默认显⽰
-//    ui->local->showAnimal();
-//    ui->stackedWidget->setCurrentIndex(4);
 }
 
 myQQMusic::~myQQMusic()
@@ -38,6 +36,19 @@ void myQQMusic::InitUi()
 
     // 设置BodyLeft中6个btForm的信息
     setBtForm_IconTextPageId();
+
+    // 本地下载BtForm动画默认显⽰
+//    ui->local->showAnimal();
+
+
+    // 设置默认显示页面
+    ui->stackedWidget->setCurrentIndex(0);
+
+    // 添加RecBox图片以及文本
+    srand(time(NULL)); // 设置随机种子，让每次推荐的页面不一样
+    ui->recMusicBox->initRecBoxUi(RandPicutre(), 1);
+    ui->supplyMusicBox->initRecBoxUi(RandPicutre(), 2);
+
 }
 
 void myQQMusic::setBtForm_IconTextPageId() const
@@ -62,6 +73,45 @@ void myQQMusic::connectSignalAndSlot() const
 
 }
 
+QJsonArray myQQMusic::RandPicutre()
+{
+    // 保存图片文件名
+    QVector<QString> vecImageName;
+    vecImageName <<"001.png"<<"003.png"<<"004.png"<<"005.png"<<"006.png"
+                 <<"007.png"<<"008.png"<<"009.png"<<"010.png"<<"011.png"
+                 <<"012.png"<<"013.png"<<"014.png"<<"015.png"<<"016.png"
+                 <<"017.png"<<"018.png"<<"019.png"<<"020.png"<<"021.png"
+                 <<"022.png"<<"023.png"<<"024.png"<<"025.png"<<"026.png"
+                 <<"027.png"<<"028.png"<<"029.png"<<"030.png"<<"031.png"
+                 <<"032.png"<<"033.png"<<"034.png"<<"035.png"<<"036.png"
+                 <<"037.png"<<"038.png"<<"039.png"<<"040.png";
+    // 随机打散
+    std::random_shuffle(vecImageName.begin(), vecImageName.end());
+
+    // 设置图片以及名字
+    QJsonArray objArray;
+    for(int i = 0;i < vecImageName.size(); ++i)
+    {
+        // 构造路径
+        QJsonObject obj;
+        obj.insert("path", ":/images/rec/" + vecImageName[i]);
+
+        // 构造文本
+        // arg(i, 3, 10, QCchar('0'))
+        // i：要放⼊%1位置的数据
+        // 3: 三位数
+        // 10：表⽰⼗进制数
+        // QChar('0')：数字不够三位，前⾯⽤字符'0'填充
+        QString strText = QString("推荐-%1").arg(i, 3, 10, QChar('0'));
+        obj.insert("text", strText);
+
+        // 构造完路径后，添加到objArray
+        objArray.append(obj);
+    }
+
+    return objArray;
+}
+
 void myQQMusic::onBtFormClick(int pageid) const
 {
     // 清除当前页面所有btFrom按钮背景颜色
@@ -73,8 +123,12 @@ void myQQMusic::onBtFormClick(int pageid) const
         if(pageid != btitem->getId())
         {
             btitem->clearBg();
+//            btitem->clearAnimal();
+
         }
     }
+
+
     // 3.显⽰⻚⾯
     ui->stackedWidget->setCurrentIndex(pageid);
 }

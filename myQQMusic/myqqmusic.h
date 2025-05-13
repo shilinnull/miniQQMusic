@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QGraphicsDropShadowEffect>
+#include <QJsonArray>
+#include <QJsonObject>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class myQQMusic; }
@@ -25,7 +27,11 @@ public:
     // btForm点击槽函数
     void onBtFormClick(int pageid) const;
 
+    // 处理信号槽函数
     void connectSignalAndSlot() const;
+
+    // 随机图片
+    QJsonArray RandPicutre();
 
 protected:
     // 重写QWidget类的⿏标单击和⿏标滚轮事件

@@ -7,16 +7,13 @@ BtForm::BtForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // 设置linex动画效果
+    // 设置lineBox动画效果
     setline1Animal();
 
-    // 隐藏lineBox中的动画效果
-//    ui->line1->hide();
-//    ui->line2->hide();
-//    ui->line3->hide();
-//    ui->line4->hide();
-
-
+    ui->line1->hide();
+    ui->line2->hide();
+    ui->line3->hide();
+    ui->line4->hide();
 }
 
 BtForm::~BtForm()
@@ -86,12 +83,13 @@ void BtForm::setline1Animal()
     animationLine4->setKeyValueAt(1, QRect(21, 15, 3, 0));
     animationLine4->setLoopCount(-1);
     animationLine4->start();
+
 }
 
-//void BtForm::showAnimal()
-//{
-//    ui->lineBox->show();
-//}
+void BtForm::showAnimal()
+{
+    ui->lineBox->show();
+}
 
 void BtForm::mousePressEvent(QMouseEvent *event)
 {

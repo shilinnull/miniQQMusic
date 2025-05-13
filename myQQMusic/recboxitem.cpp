@@ -24,7 +24,8 @@ bool RecBoxItem::eventFilter(QObject *watched, QEvent *event)
         int ImgHeight = ui->musicImageBox->height();
 
         // 拦截鼠标进入时间
-        if(event->type() == QEvent::Enter){
+        if(event->type() == QEvent::Enter)
+        {
             QPropertyAnimation* animation = new QPropertyAnimation(ui->musicImageBox, "geometry");
             animation->setDuration(150);
             animation->setStartValue(QRect(9, 9,ImgWidget, ImgHeight));

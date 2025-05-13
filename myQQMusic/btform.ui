@@ -46,12 +46,12 @@
      <property name="styleSheet">
       <string notr="true">#btStyle
 {
-	background:#D8D8D8;
+	background-color:rgb(216,216,216);
 }
 
 #btStyle:hover
 {
-	background-color:rgba(170, 170, 255, 0.5);
+	background-color:rgba(85, 255, 255, 0.5);
 }
 </string>
      </property>
@@ -60,7 +60,7 @@
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>3</number>
+       <number>10</number>
       </property>
       <property name="topMargin">
        <number>0</number>
@@ -117,6 +117,9 @@
       </item>
       <item>
        <widget class="QWidget" name="lineBox" native="true">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>30</width>

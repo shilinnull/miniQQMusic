@@ -110,7 +110,7 @@ QPushButton:hover
       <item>
        <widget class="QWidget" name="recListUp" native="true">
         <property name="styleSheet">
-         <string notr="true">background-color:rgb(85, 111, 1)</string>
+         <string notr="true"/>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <property name="spacing">
@@ -141,7 +141,7 @@ QPushButton:hover
       <item>
        <widget class="QWidget" name="recListDown" native="true">
         <property name="styleSheet">
-         <string notr="true">background-color:rgb(85, 255, 133)</string>
+         <string notr="true"/>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <property name="spacing">

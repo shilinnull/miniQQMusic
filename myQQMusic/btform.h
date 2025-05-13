@@ -30,10 +30,8 @@ public:
     QPropertyAnimation *animationLine4;
     void setline1Animal();
 
-    // 显⽰动画效果
-//    void showAnimal();
-
-
+    // 显示动画
+    void showAnimal();
 
 signals:
     void click(int id);

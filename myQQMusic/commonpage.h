@@ -2,7 +2,7 @@
 #define COMMONPAGE_H
 
 #include <QWidget>
-#include "ListItemBox.h"
+#include "listitembox.h"
 
 namespace Ui {
 class CommonPage;

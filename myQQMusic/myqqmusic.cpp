@@ -49,6 +49,12 @@ void myQQMusic::InitUi()
     ui->recMusicBox->initRecBoxUi(RandPicutre(), 1);
     ui->supplyMusicBox->initRecBoxUi(RandPicutre(), 2);
 
+
+    // 设置我喜欢、本地⾳乐、最近播放⻚⾯
+    ui->likePage->setCommonPageUi("我喜欢", ":/images/ilikebg.png");
+    ui->localPage->setCommonPageUi("本地音乐", ":/images/localbg.png");
+    ui->recentPage->setCommonPageUi("最近播放", ":/images/recentbg.png");
+
 }
 
 void myQQMusic::setBtForm_IconTextPageId() const

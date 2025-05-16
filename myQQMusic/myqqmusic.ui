@@ -645,6 +645,8 @@ QPushButton:hover
                     <property name="font">
                      <font>
                       <pointsize>24</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
                      </font>
                     </property>
                     <property name="text">
@@ -668,7 +670,7 @@ QPushButton:hover
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>18</pointsize>
+                      <pointsize>17</pointsize>
                      </font>
                     </property>
                     <property name="text">
@@ -699,7 +701,7 @@ QPushButton:hover
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>18</pointsize>
+                      <pointsize>17</pointsize>
                       <weight>50</weight>
                       <bold>false</bold>
                      </font>
@@ -752,7 +754,7 @@ QPushButton:hover
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="prosessBar" native="true">
+             <widget class="MusicSlider" name="prosessBar" native="true">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -766,7 +768,7 @@ QPushButton:hover
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(170, 255, 0);</string>
+               <string notr="true"/>
               </property>
              </widget>
             </item>
@@ -1106,6 +1108,12 @@ QPushButton:hover
    <class>CommonPage</class>
    <extends>QWidget</extends>
    <header location="global">commonpage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MusicSlider</class>
+   <extends>QWidget</extends>
+   <header location="global">musicslider.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

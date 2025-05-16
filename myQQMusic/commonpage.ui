@@ -188,45 +188,98 @@
        <height>40</height>
       </size>
      </property>
-     <widget class="QLabel" name="musicNameLabel">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>10</y>
-        <width>81</width>
-        <height>18</height>
-       </rect>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string>歌曲名称</string>
+      <property name="leftMargin">
+       <number>0</number>
       </property>
-     </widget>
-     <widget class="QLabel" name="musicSingerLabel">
-      <property name="geometry">
-       <rect>
-        <x>220</x>
-        <y>10</y>
-        <width>81</width>
-        <height>18</height>
-       </rect>
+      <property name="topMargin">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string>歌⼿名称</string>
+      <property name="rightMargin">
+       <number>0</number>
       </property>
-     </widget>
-     <widget class="QLabel" name="musicAlbumLabel">
-      <property name="geometry">
-       <rect>
-        <x>400</x>
-        <y>20</y>
-        <width>81</width>
-        <height>18</height>
-       </rect>
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string>专辑名称</string>
-      </property>
-     </widget>
+      <item>
+       <widget class="QLabel" name="musicNameLabel">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>歌曲名称</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="musicSingerLabel">
+        <property name="minimumSize">
+         <size>
+          <width>210</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>210</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>歌⼿名称</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="musicAlbumLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>专辑名称</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

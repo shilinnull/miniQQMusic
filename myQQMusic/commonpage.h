@@ -2,6 +2,7 @@
 #define COMMONPAGE_H
 
 #include <QWidget>
+#include "ListItemBox.h"
 
 namespace Ui {
 class CommonPage;
@@ -14,6 +15,8 @@ class CommonPage : public QWidget
 public:
     explicit CommonPage(QWidget *parent = nullptr);
     ~CommonPage();
+
+    void setCommonPageUi(const QString& title, const QString& imagePath);
 
 private:
     Ui::CommonPage *ui;

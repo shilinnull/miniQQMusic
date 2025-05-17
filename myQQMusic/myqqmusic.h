@@ -6,6 +6,7 @@
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
 #include <QJsonObject>
+#include "volumetool.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class myQQMusic; }
@@ -41,10 +42,15 @@ protected:
 private slots:
     void on_quit_clicked();
 
+    void on_volume_clicked();
+
 private:
     Ui::myQQMusic *ui;
 
     // 记录光标相对于窗口标题栏的相对距离
     QPoint dragPosition;
+
+    // 添加音量弹出按钮
+    VolumeTool* volumeTool;
 };
 #endif // MYQQMUSIC_H

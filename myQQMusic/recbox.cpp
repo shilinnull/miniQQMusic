@@ -6,8 +6,8 @@
 RecBox::RecBox(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RecBox),
-    row(1),
-    col(4)
+    row(1), // 默认行是一行
+    col(4)  // 默认列是四列
 {
     ui->setupUi(this);
 }
@@ -29,10 +29,11 @@ void RecBox::initRecBoxUi(QJsonArray data, int row)
     if(row == 2)
     {
         this->row = row;
-        this->col = 8;  // 注意：这里需要是8
+        this->col = 8;  // 注意：这里需要是8,两行
     }
     else
     {
+        // 下面的那样隐藏
         ui->recListDown->hide();
     }
     imageList = data;
@@ -50,7 +51,7 @@ void RecBox::createRecItem()
         ui->recListUpHLayout->removeWidget(e);
         delete e;
     }
-
+    // 删除旧元素
     QList<RecBoxItem*> recDownList = ui->recListDown->findChildren<RecBoxItem*>();
     for(auto e : recDownList)
     {
@@ -70,12 +71,14 @@ void RecBox::createRecItem()
         item->setText(obj.value("text").toString());
         item->setImage(obj.value("path").toString());
 
-        // recMusicBox：col为4，元素添加到ui->recListUpHLayout中
-        // supplyMuscBox: col为8， ui->recListUpHLayout添加4个，ui- >recListDownHLayout添加4个
-        // 即supplyMuscBox上下两⾏都要添加
-        // 如果是recMusicBox：row为1，只能执⾏else，所有4个RecBoxItem都添加到ui- >recListUpHLayout中
-        // 如果是supplyMuscBox：row为2，col为8，col/2结果为4，i为0 1 2 3时，元素添加到ui->recListDownHLayout中
-        // i为4 5 6 7时，元素添加到ui->recListUpHLayout中
+        /*注意：
+         recMusicBox：col为4，元素添加到ui->recListUpHLayout中
+         supplyMuscBox: col为8， ui->recListUpHLayout添加4个，ui- >recListDownHLayout添加4个
+         即supplyMuscBox上下两⾏都要添加
+         如果是recMusicBox：row为1，只能执⾏else，所有4个RecBoxItem都添加到ui- >recListUpHLayout中
+         如果是supplyMuscBox：row为2，col为8，col/2结果为4，i为0 1 2 3时，元素添加到ui->recListDownHLayout中
+         i为4 5 6 7时，元素添加到ui->recListUpHLayout中
+        */
         if(index >= col / 2 && row == 2)
             ui->recListDownHLayout->addWidget(item);
         else
@@ -87,7 +90,7 @@ void RecBox::createRecItem()
 void RecBox::on_btDown_clicked()
 {
     currentIndex++;
-    if(currentIndex >= count)
+    if(currentIndex > count)
         currentIndex = 0;
 
     // 在创建新的时候删除旧的

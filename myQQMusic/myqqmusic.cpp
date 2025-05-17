@@ -55,6 +55,8 @@ void myQQMusic::InitUi()
     ui->localPage->setCommonPageUi("本地音乐", ":/images/localbg.png");
     ui->recentPage->setCommonPageUi("最近播放", ":/images/recentbg.png");
 
+    // 创建⾳量调节窗⼝对象并挂到对象树
+    volumeTool = new VolumeTool(this);
 }
 
 void myQQMusic::setBtForm_IconTextPageId() const
@@ -168,3 +170,21 @@ void myQQMusic::on_quit_clicked()
     this->close();
 }
 
+
+void myQQMusic::on_volume_clicked()
+{
+    // 先要调整窗⼝的显⽰位置，否则该窗⼝在主窗⼝的左上⻆
+    // 1. 获取该按钮左上⻆的图标
+    QPoint point = ui->volume->mapToGlobal(QPoint(0, 0));
+    // 2. 计算volume窗⼝的左上⻆位置
+    // 让该窗⼝显⽰在⿏标点击的正上⽅
+    // ⿏标位置：减去窗⼝宽度的⼀半，以及⾼度恰巧就是窗⼝的左上⻆
+    QPoint volumeLeftTop = point - QPoint(volumeTool->width()/2, volumeTool->height());
+    // 微调窗⼝位置
+    volumeLeftTop.setY(volumeLeftTop.y()+30);
+    volumeLeftTop.setX(volumeLeftTop.x()+15);
+    // 3. 移动窗⼝位置
+    volumeTool->move(volumeLeftTop);
+    // 4. 将窗⼝显⽰出来
+    volumeTool->show();
+}

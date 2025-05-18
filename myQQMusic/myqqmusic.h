@@ -44,6 +44,8 @@ private slots:
 
     void on_volume_clicked();
 
+    void on_addLocal_clicked();
+
 private:
     Ui::myQQMusic *ui;
 

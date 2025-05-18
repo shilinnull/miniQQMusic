@@ -1,6 +1,7 @@
 #include "myqqmusic.h"
 #include "ui_myqqmusic.h"
 
+#include <QFileDialog>
 
 myQQMusic::myQQMusic(QWidget *parent)
     : QWidget(parent)
@@ -188,3 +189,58 @@ void myQQMusic::on_volume_clicked()
     // 4. 将窗⼝显⽰出来
     volumeTool->show();
 }
+
+void myQQMusic::on_addLocal_clicked()
+{
+    // 1. 创建一个文件对话框
+    QFileDialog fileDialog(this);
+    fileDialog.setWindowTitle("添加本地音乐");
+
+    // 2. 创建一个打开格式的文件对话框
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+
+    // 3. 设置对话框模式
+    // 能选择文件，并且一次性可以选择多个存在的文件
+    fileDialog.setFileMode(QFileDialog::ExistingFiles);
+
+    // 4. 设置对话框的MIME过滤器
+    /*
+        MIME类型(Multipurpose Internet Mail Extensions)是⼀种互联⽹标准，
+        ⽤于表⽰⽂档、⽂件或字节流的性质和格式。
+    */
+    QStringList mimeList;
+    mimeList << "application/octet-stream"; // 表⽰通⽤的⼆进制数据流的MIME类型
+    fileDialog.setMimeTypeFilters(mimeList);
+
+    // 5. 设置对话框默认的打开路径，设置目录当前工程所在目录
+    QDir dir(QDir::currentPath());
+    dir.cdUp();
+    QString musicPath = dir.path() + "/myQQMusic/musics/";
+    fileDialog.setDirectory(musicPath); // 设置路径
+
+    // 6. 显示对话框
+    if(fileDialog.exec() == QFileDialog::Accepted)
+    {
+        // 些换到本地音乐界面，添加音乐
+        ui->stackedWidget->setCurrentIndex(4);
+
+        // 获取对话框选中的url
+        QList<QUrl> urls = fileDialog.selectedUrls();
+
+        // 将歌曲文件交给musicList进行管理
+        // ...
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

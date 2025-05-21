@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include "volumetool.h"
+#include "musiclist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class myQQMusic; }
@@ -54,5 +55,8 @@ private:
 
     // 添加音量弹出按钮
     VolumeTool* volumeTool;
+
+    // 管理音乐
+    MusicList musiclist;
 };
 #endif // MYQQMUSIC_H

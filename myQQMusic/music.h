@@ -29,6 +29,9 @@ public:
     QString getMusicId()const;
 
 private:
+    void parseMediaMetaData();
+
+private:
     bool isLike; // 标记是否我喜欢
     bool isHistory; // 标记音乐是否播放过
 

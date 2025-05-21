@@ -228,7 +228,11 @@ void myQQMusic::on_addLocal_clicked()
         QList<QUrl> urls = fileDialog.selectedUrls();
 
         // 将歌曲文件交给musicList进行管理
-        // ...
+        // 管理的是解析music对象
+        musiclist.addMusicByUrl(urls);
+
+        // 将歌曲信息更新到commonpage页面中的listwidget中
+//        ui->localPage->reFresh(musiclist);
     }
 }
 

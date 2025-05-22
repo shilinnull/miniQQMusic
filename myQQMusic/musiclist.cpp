@@ -21,3 +21,25 @@ void MusicList::addMusicByUrl(const QList<QUrl> &urls)
         }
     }
 }
+
+MusicList::iterator MusicList::begin()
+{
+    return musicList.begin();
+}
+
+MusicList::iterator MusicList::end()
+{
+    return musicList.end();
+}
+
+MusicList::iterator MusicList::findMusicByMusicid(const QString &musicId)
+{
+    for(iterator it = begin(); it!= end(); ++it)
+    {
+        if(it->getMusicId() == musicId)
+        {
+            return it;
+        }
+    }
+    return end();
+}

@@ -58,6 +58,12 @@ void myQQMusic::InitUi()
 
     // 创建⾳量调节窗⼝对象并挂到对象树
     volumeTool = new VolumeTool(this);
+
+    // 设置commonPage的信息
+    ui->likePage->setMusicListType(PageType::LIKE_PAGE);
+    ui->localPage->setMusicListType(PageType::LOCAL_PAGE);
+    ui->recentPage->setMusicListType(PageType::HISTORY_PAGE);
+
 }
 
 void myQQMusic::setBtForm_IconTextPageId() const
@@ -231,8 +237,8 @@ void myQQMusic::on_addLocal_clicked()
         // 管理的是解析music对象
         musiclist.addMusicByUrl(urls);
 
-        // 将歌曲信息更新到commonpage页面中的listwidget中
-//        ui->localPage->reFresh(musiclist);
+        // 将歌曲信息更新到commonpage页面中的listwidget中(本地页面)
+        ui->localPage->reFresh(musiclist);
     }
 }
 

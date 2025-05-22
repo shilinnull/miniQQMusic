@@ -15,12 +15,19 @@ public:
     explicit ListItemBox(QWidget *parent = nullptr);
     ~ListItemBox();
 
+    void setMusicName(const QString& name);
+    void setSingerName(const QString& singer);
+    void setAlbumName(const QString& albumName);
+    void setLikeIcon(bool like);
+
+
 protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
 
 private:
     Ui::ListItemBox *ui;
+    bool isLike;
 };
 
 #endif // LISTITEMBOX_H

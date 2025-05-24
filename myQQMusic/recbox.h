@@ -32,7 +32,7 @@ private:
 private:
     int row;
     int col;
-    QJsonArray imageList;
+    QJsonArray imageList; // 存储图片
 
     int currentIndex; // 标记当前显示第几组
     int count;        // 记录总的信息组数

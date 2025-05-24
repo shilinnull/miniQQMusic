@@ -25,7 +25,7 @@ void myQQMusic::InitUi()
     // 将主窗口的标题栏隐藏
     this->setWindowFlag(Qt::FramelessWindowHint);
 
-    // 设置窗口透明度
+    // 设置窗口边界阴影偏移
     this->setAttribute(Qt::WA_TranslucentBackground);
 
     // 给窗口设置透明度
@@ -39,7 +39,7 @@ void myQQMusic::InitUi()
     setBtForm_IconTextPageId();
 
     // 本地下载BtForm动画默认显⽰
-//    ui->local->showAnimal();
+    ui->local->showAnimal();
 
 
     // 设置默认显示页面
@@ -50,20 +50,17 @@ void myQQMusic::InitUi()
     ui->recMusicBox->initRecBoxUi(RandPicutre(), 1);
     ui->supplyMusicBox->initRecBoxUi(RandPicutre(), 2);
 
-
-    // 设置我喜欢、本地⾳乐、最近播放⻚⾯
+    // 设置我喜欢、本地⾳乐、最近播放⻚⾯、设置commonPage的信息
     ui->likePage->setCommonPageUi("我喜欢", ":/images/ilikebg.png");
     ui->localPage->setCommonPageUi("本地音乐", ":/images/localbg.png");
     ui->recentPage->setCommonPageUi("最近播放", ":/images/recentbg.png");
-
-    // 创建⾳量调节窗⼝对象并挂到对象树
-    volumeTool = new VolumeTool(this);
-
-    // 设置commonPage的信息
     ui->likePage->setMusicListType(PageType::LIKE_PAGE);
     ui->localPage->setMusicListType(PageType::LOCAL_PAGE);
     ui->recentPage->setMusicListType(PageType::HISTORY_PAGE);
 
+
+    // 创建⾳量调节窗口对象并挂到对象树
+    volumeTool = new VolumeTool(this);
 }
 
 void myQQMusic::setBtForm_IconTextPageId() const
@@ -85,7 +82,6 @@ void myQQMusic::connectSignalAndSlot() const
     connect(ui->like, &BtForm::click, this, &myQQMusic::onBtFormClick);
     connect(ui->local, &BtForm::click, this, &myQQMusic::onBtFormClick);
     connect(ui->recent, &BtForm::click, this, &myQQMusic::onBtFormClick);
-
 }
 
 QJsonArray myQQMusic::RandPicutre()
@@ -138,11 +134,8 @@ void myQQMusic::onBtFormClick(int pageid) const
         if(pageid != btitem->getId())
         {
             btitem->clearBg();
-//            btitem->clearAnimal();
-
         }
     }
-
 
     // 3.显⽰⻚⾯
     ui->stackedWidget->setCurrentIndex(pageid);
@@ -243,14 +236,7 @@ void myQQMusic::on_addLocal_clicked()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+void myQQMusic::on_min_clicked()
+{
+//    this->hide();
+}

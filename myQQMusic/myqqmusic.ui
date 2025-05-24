@@ -674,7 +674,7 @@ QPushButton:hover
                      </font>
                     </property>
                     <property name="text">
-                     <string>今⽇为你推荐</string>
+                     <string>今日为你推荐</string>
                     </property>
                    </widget>
                   </item>
@@ -707,7 +707,7 @@ QPushButton:hover
                      </font>
                     </property>
                     <property name="text">
-                     <string>你的⾳乐补给站</string>
+                     <string>你的音乐补给站</string>
                     </property>
                    </widget>
                   </item>

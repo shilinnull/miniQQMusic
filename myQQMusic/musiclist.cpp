@@ -12,7 +12,9 @@ void MusicList::addMusicByUrl(const QList<QUrl> &urls)
     {
         // 筛选文件
         QMimeDatabase db;
-        QMimeType mime = db.mimeTypeForFile(musicUrl.toLocalFile());
+        QMimeType mime = db.mimeTypeForFile(musicUrl.toLocalFile()); // url-->字符串
+
+        //                      mp3                            无损音乐                        wav
         if(mime.name() == "audio/mpeg" || mime.name() == "audio/flac" || mime.name() == "audio/wav")
         {
             // 构造一个music文件，然后进行管理

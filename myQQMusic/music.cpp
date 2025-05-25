@@ -13,10 +13,11 @@ Music::Music(const QUrl& url)
     ,isHistory(false)
     ,musicUrl(url)
 {
-    // 读取url对应的歌曲文件的信息，解析出元数据
-    // 歌曲名称、歌曲作者、歌曲专辑、歌曲持续时长
+    // 音乐唯一id
     musicId = QUuid::createUuid().toString();
     // 解析歌曲元数据
+    // 读取url对应的歌曲文件的信息，解析出元数据
+    // 歌曲名称、歌曲作者、歌曲专辑、歌曲持续时长
     parseMediaMetaData();
 }
 
@@ -90,7 +91,7 @@ void Music::parseMediaMetaData()
 {
     // 读取歌曲数据
     QMediaPlayer player;
-    player.setMedia(musicUrl);
+    player.setMedia(musicUrl); // 不会等待整个的加载过程
 
     // 解析元数据，等待，让主继续处理
     while(!player.isMetaDataAvailable())
@@ -107,15 +108,45 @@ void Music::parseMediaMetaData()
         albumName = player.metaData("AlbumTitle").toString();
         duration = player.duration();
 
+        QString fileName = musicUrl.fileName();
+        int index = fileName.indexOf('-');
+
+        // musicName为""的处
         if(musicName.isEmpty())
-            musicName = "未知歌曲";
+        {
+            if(index != -1)
+            {
+                // 找到-的位置
+                musicName = fileName.mid(0, index);
+            }
+            else
+            {
+                // 找到.的位置
+                musicName = fileName.mid(0, fileName.indexOf('.'));
+            }
+        }
+
+        // 作者为空
         if(singerName.isEmpty())
-            singerName = "未知歌手";
+        {
+            if(index != -1)
+            {
+                // 从-后开始，到.前的位置
+                singerName = fileName.mid(index + 1, fileName.indexOf('.') - index - 1);
+            }
+            else
+            {
+                singerName = "未知歌手";
+            }
+        }
+
+        // 专辑名为空
         if(albumName.isEmpty())
+        {
             albumName = "未知专辑";
+        }
 
-        qDebug() << musicName <<"" << singerName <<"" << albumName <<"" << duration;
-
+        qDebug() << musicName << "" << singerName << "" << albumName << "" << duration;
     }
 }
 

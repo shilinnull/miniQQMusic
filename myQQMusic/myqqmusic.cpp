@@ -47,8 +47,8 @@ void myQQMusic::InitUi()
 
     // 添加RecBox图片以及文本
     srand(time(NULL)); // 设置随机种子，让每次推荐的页面不一样
-    ui->recMusicBox->initRecBoxUi(RandPicutre(), 1);
-    ui->supplyMusicBox->initRecBoxUi(RandPicutre(), 2);
+    ui->recMusicBox->initRecBoxUi(RandPicutre(), 1); // 行1
+    ui->supplyMusicBox->initRecBoxUi(RandPicutre(), 2); // 行2
 
     // 设置我喜欢、本地⾳乐、最近播放⻚⾯、设置commonPage的信息
     ui->likePage->setCommonPageUi("我喜欢", ":/images/ilikebg.png");
@@ -57,7 +57,6 @@ void myQQMusic::InitUi()
     ui->likePage->setMusicListType(PageType::LIKE_PAGE);
     ui->localPage->setMusicListType(PageType::LOCAL_PAGE);
     ui->recentPage->setMusicListType(PageType::HISTORY_PAGE);
-
 
     // 创建⾳量调节窗口对象并挂到对象树
     volumeTool = new VolumeTool(this);
@@ -88,14 +87,13 @@ QJsonArray myQQMusic::RandPicutre()
 {
     // 保存图片文件名
     QVector<QString> vecImageName;
-    vecImageName <<"001.png"<<"003.png"<<"004.png"<<"005.png"<<"006.png"
-                 <<"007.png"<<"008.png"<<"009.png"<<"010.png"<<"011.png"
-                 <<"012.png"<<"013.png"<<"014.png"<<"015.png"<<"016.png"
-                 <<"017.png"<<"018.png"<<"019.png"<<"020.png"<<"021.png"
-                 <<"022.png"<<"023.png"<<"024.png"<<"025.png"<<"026.png"
-                 <<"027.png"<<"028.png"<<"029.png"<<"030.png"<<"031.png"
-                 <<"032.png"<<"033.png"<<"034.png"<<"035.png"<<"036.png"
-                 <<"037.png"<<"038.png"<<"039.png"<<"040.png";
+    vecImageName<<"001.png"<<"003.png"<<"004.png"<<"005.png"<<"006.png"<<"007.png"
+                <<"008.png"<<"009.png"<<"010.png"<<"011.png"<<"012.png"<<"013.png"
+                <<"014.png"<<"015.png"<<"016.png"<<"017.png"<<"018.png"<<"019.png"
+                <<"020.png"<<"021.png"<<"022.png"<<"023.png"<<"024.png"<<"025.png"
+                <<"026.png"<<"027.png"<<"028.png"<<"029.png"<<"030.png"<<"031.png"
+                <<"032.png"<<"033.png"<<"034.png"<<"035.png"<<"036.png"<<"037.png"
+                <<"038.png"<<"039.png"<<"040.png";
     // 随机打散
     std::random_shuffle(vecImageName.begin(), vecImageName.end());
 
@@ -113,7 +111,7 @@ QJsonArray myQQMusic::RandPicutre()
         // 3: 三位数
         // 10：表⽰⼗进制数
         // QChar('0')：数字不够三位，前⾯⽤字符'0'填充
-        QString strText = QString("推荐-%1").arg(i, 3, 10, QChar('0'));
+        QString strText = QString("推荐-%1").arg(i + 1, 3, 10, QChar('0'));
         obj.insert("text", strText);
 
         // 构造完路径后，添加到objArray
@@ -220,7 +218,7 @@ void myQQMusic::on_addLocal_clicked()
     // 6. 显示对话框
     if(fileDialog.exec() == QFileDialog::Accepted)
     {
-        // 些换到本地音乐界面，添加音乐
+        // 切换到本地音乐界面，准备添加音乐
         ui->stackedWidget->setCurrentIndex(4);
 
         // 获取对话框选中的url

@@ -48,9 +48,6 @@ private:
     // 标记属于likePage、localPage、recentPage哪个⻚⾯
     PageType pageType;
 
-
-
-
 private:
     Ui::CommonPage *ui;
 };

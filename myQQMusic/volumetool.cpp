@@ -29,7 +29,6 @@ VolumeTool::VolumeTool(QWidget *parent) :
     ui->outSlider->setGeometry(ui->outSlider->x(), 180 - 38 + 28, ui->outSlider->width(), 40);
     ui->sliderBtn->move(ui->sliderBtn->x(), ui->outSlider->y() - ui->sliderBtn->height() / 2);
     ui->volumeRatio->setText("20%");
-
 }
 
 VolumeTool::~VolumeTool()

@@ -27,7 +27,7 @@ void CommonPage::reFresh(MusicList& musiclist)
 
     // 添加新的歌曲
     addMusicToMusicPage(musiclist);
-    for(auto& musicId : musicListOfPage)
+    for(auto musicId : musicListOfPage)
     {
         auto it = musiclist.findMusicByMusicid(musicId);
         if(it == musiclist.end())
@@ -72,7 +72,7 @@ void CommonPage::addMusicToMusicPage(MusicList &musiclist)
     musicListOfPage.clear();
 
     // 遍历musiclist进行添加
-    for(auto& music : musiclist)
+    for(auto music : musiclist)
     {
         switch(pageType)
         {
@@ -85,7 +85,6 @@ void CommonPage::addMusicToMusicPage(MusicList &musiclist)
                 musicListOfPage.push_back(music.getMusicId());
             }
             break;
-
         case HISTORY_PAGE:
             if(music.getIsHistory())
             {

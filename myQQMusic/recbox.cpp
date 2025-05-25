@@ -21,22 +21,23 @@ void RecBox::initRecBoxUi(QJsonArray data, int row)
 {
     // 初始化
     imageList = data;
-    currentIndex = 0; // 默认显示第0组
-    count = imageList.size() / col; // 总共行
-
 
     // 如果是两⾏，说明当前RecBox是主界⾯上的supplyMusicBox
     if(row == 2)
     {
-        this->row = row;
-        this->col = 8;  // 注意：这里需要是8,两行
+        this->row = row; // 修改行
+        col = 8;  // 注意：这里列需要是8，两行
     }
     else
     {
-        // 下面的那样隐藏
+        // 将下面的隐藏
         ui->recListDown->hide();
     }
-    imageList = data;
+    imageList = data; // 传递回来的图片
+
+    // 初始化索引
+    currentIndex = 0; // 标记图片当前显示的组（默认显示第0组）
+    count = imageList.size() / col + 1; // 总共组
 
     // 往RecBox中添加图⽚
     createRecItem();
@@ -82,18 +83,19 @@ void RecBox::createRecItem()
         if(index >= col / 2 && row == 2)
             ui->recListDownHLayout->addWidget(item);
         else
-           ui->recListUpHLayout->addWidget(item); // 将对象设置到RecBox中
+            ui->recListUpHLayout->addWidget(item); // 将对象设置到RecBox中
         ++index;
     }
 }
 
 void RecBox::on_btDown_clicked()
 {
+    // 点击之后，需要显示下一组图片，如果已经是最后一组图片，显示第0组
     currentIndex++;
-    if(currentIndex > count)
+    if(currentIndex >= count)
         currentIndex = 0;
 
-    // 在创建新的时候删除旧的
+    // 在创建新的时候删除旧的，然后添加新的
     createRecItem();
 }
 

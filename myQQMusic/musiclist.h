@@ -23,7 +23,7 @@ public:
 
     iterator findMusicByMusicid(const QString& musicId);
 
-private:
+
     QVector<Music> musicList;
 };
 

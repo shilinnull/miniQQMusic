@@ -8,6 +8,9 @@ CommonPage::CommonPage(QWidget *parent) :
     ui(new Ui::CommonPage)
 {
     ui->setupUi(this);
+
+    // 去除水平滚动条
+    ui->pageMusicList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 CommonPage::~CommonPage()
@@ -27,6 +30,8 @@ void CommonPage::reFresh(MusicList& musiclist)
 
     // 添加新的歌曲
     addMusicToMusicPage(musiclist);
+    qDebug() << "musicListOfPage: " << musicListOfPage.size();
+
     for(auto musicId : musicListOfPage)
     {
         auto it = musiclist.findMusicByMusicid(musicId);
@@ -41,13 +46,15 @@ void CommonPage::reFresh(MusicList& musiclist)
         listItemBox->setAlbumName(it->getAlbumName());
         listItemBox->setLikeIcon(it->getIsLike());
 
+        // new一个item
         QListWidgetItem* item = new QListWidgetItem(ui->pageMusicList);
-        item->setSizeHint(QSize(listItemBox->width(), listItemBox->height()));
-        ui->pageMusicList->setItemWidget(item, listItemBox);
+        item->setSizeHint(QSize(listItemBox->width(), listItemBox->height())); // 设置大小
+        ui->pageMusicList->setItemWidget(item, listItemBox); // 设置到pageMusicList
     }
 
     // 重绘
-    repaint();
+    repaint(); // ⽴即执⾏paintEvent()
+    // update()   // 将⼀个paintEvent事件添加到事件队列中，等待稍后执行，即不会立即执行 paintEvent
 }
 
 void CommonPage::setCommonPageUi(const QString &title, const QString &imagePath)
@@ -77,13 +84,13 @@ void CommonPage::addMusicToMusicPage(MusicList &musiclist)
         switch(pageType)
         {
         case LIKE_PAGE:
-            musicListOfPage.push_back(music.getMusicId());
-            break;
-        case LOCAL_PAGE:
             if(music.getIsLike())
             {
                 musicListOfPage.push_back(music.getMusicId());
             }
+            break;
+        case LOCAL_PAGE:
+            musicListOfPage.push_back(music.getMusicId());
             break;
         case HISTORY_PAGE:
             if(music.getIsHistory())
@@ -97,20 +104,3 @@ void CommonPage::addMusicToMusicPage(MusicList &musiclist)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

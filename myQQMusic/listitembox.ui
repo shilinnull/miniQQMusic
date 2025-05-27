@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
     <number>0</number>
@@ -215,7 +218,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>alan</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -246,7 +249,7 @@
       <item>
        <widget class="QLabel" name="albumNameLabel">
         <property name="text">
-         <string>Faded</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

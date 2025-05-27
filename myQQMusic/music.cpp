@@ -117,12 +117,12 @@ void Music::parseMediaMetaData()
             if(index != -1)
             {
                 // 找到-的位置
-                musicName = fileName.mid(0, index);
+                musicName = fileName.mid(0, index).trimmed(); // 去除字符串前后空白字符
             }
             else
             {
                 // 找到.的位置
-                musicName = fileName.mid(0, fileName.indexOf('.'));
+                musicName = fileName.mid(0, fileName.indexOf('.')).trimmed();
             }
         }
 
@@ -131,8 +131,8 @@ void Music::parseMediaMetaData()
         {
             if(index != -1)
             {
-                // 从-后开始，到.前的位置
-                singerName = fileName.mid(index + 1, fileName.indexOf('.') - index - 1);
+                // 从-后开始，到.前的位吧置
+                singerName = fileName.mid(index + 1, fileName.indexOf('.') - index - 1).trimmed();
             }
             else
             {

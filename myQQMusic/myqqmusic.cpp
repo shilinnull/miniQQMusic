@@ -2,6 +2,7 @@
 #include "ui_myqqmusic.h"
 
 #include <QFileDialog>
+#include <QDebug>
 
 myQQMusic::myQQMusic(QWidget *parent)
     : QWidget(parent)
@@ -189,6 +190,7 @@ void myQQMusic::on_volume_clicked()
 
 void myQQMusic::on_addLocal_clicked()
 {
+    qDebug() << "on_addLocal_clicked";
     // 1. 创建一个文件对话框
     QFileDialog fileDialog(this);
     fileDialog.setWindowTitle("添加本地音乐");
@@ -215,6 +217,7 @@ void myQQMusic::on_addLocal_clicked()
     QString musicPath = dir.path() + "/myQQMusic/musics/";
     fileDialog.setDirectory(musicPath); // 设置路径
 
+     qDebug() << "on_addLocal_clicked";
     // 6. 显示对话框
     if(fileDialog.exec() == QFileDialog::Accepted)
     {
@@ -228,6 +231,7 @@ void myQQMusic::on_addLocal_clicked()
         // 管理的是解析music对象
         musiclist.addMusicByUrl(urls);
 
+        qDebug() << musiclist.musicList.size();
         // 将歌曲信息更新到commonpage页面中的listwidget中(本地页面)
         ui->localPage->reFresh(musiclist);
     }

@@ -226,7 +226,7 @@
          </font>
         </property>
         <property name="text">
-         <string>歌曲名称</string>
+         <string>  歌曲名称</string>
         </property>
        </widget>
       </item>

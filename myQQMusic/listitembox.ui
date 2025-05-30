@@ -66,8 +66,8 @@
        <widget class="QPushButton" name="likeBtn">
         <property name="minimumSize">
          <size>
-          <width>25</width>
-          <height>25</height>
+          <width>30</width>
+          <height>30</height>
          </size>
         </property>
         <property name="maximumSize">

@@ -35,6 +35,9 @@ public:
     // 随机图片
     QJsonArray RandPicutre();
 
+    // 响应commonPage的信号
+    void onUpdateLikeMusic(bool isLike, const QString& musicId);
+
 protected:
     // 重写QWidget类的⿏标单击和⿏标滚轮事件
     void mousePressEvent(QMouseEvent* event) override;

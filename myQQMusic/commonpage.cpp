@@ -50,6 +50,12 @@ void CommonPage::reFresh(MusicList& musiclist)
         QListWidgetItem* item = new QListWidgetItem(ui->pageMusicList);
         item->setSizeHint(QSize(listItemBox->width(), listItemBox->height())); // 设置大小
         ui->pageMusicList->setItemWidget(item, listItemBox); // 设置到pageMusicList
+
+        // 接受listitemBox发射的setLikemusic信号
+        connect(listItemBox, &ListItemBox::setIsLike, this, [=](bool isLike){
+           // 发送更新音乐信号
+           emit updataLikeMusic(isLike, it->getMusicId());
+        });
     }
 
     // 重绘
@@ -64,13 +70,6 @@ void CommonPage::setCommonPageUi(const QString &title, const QString &imagePath)
     // 设置封面
     ui->musicImageLabel->setPixmap(QPixmap(imagePath));
     ui->musicImageLabel->setScaledContents(true); // 自动拉伸
-
-    // 测试
-//    ListItemBox* listItemBox = new ListItemBox(this);
-//    QListWidgetItem* listWidgetItem = new QListWidgetItem(ui->pageMusicList);
-//    listWidgetItem->setSizeHint(QSize(ui->pageMusicList->width(), ui->pageMusicList->height()));
-//    ui->pageMusicList->setItemWidget(listWidgetItem, listItemBox);
-
 }
 
 void CommonPage::addMusicToMusicPage(MusicList &musiclist)

@@ -82,6 +82,11 @@ void myQQMusic::connectSignalAndSlot() const
     connect(ui->like, &BtForm::click, this, &myQQMusic::onBtFormClick);
     connect(ui->local, &BtForm::click, this, &myQQMusic::onBtFormClick);
     connect(ui->recent, &BtForm::click, this, &myQQMusic::onBtFormClick);
+
+    // 关联commonpage发射的updateLikeMusic信号
+    connect(ui->likePage, &CommonPage::updataLikeMusic, this, &myQQMusic::onUpdateLikeMusic);
+    connect(ui->localPage, &CommonPage::updataLikeMusic, this, &myQQMusic::onUpdateLikeMusic);
+    connect(ui->recentPage, &CommonPage::updataLikeMusic, this, &myQQMusic::onUpdateLikeMusic);
 }
 
 QJsonArray myQQMusic::RandPicutre()
@@ -120,6 +125,20 @@ QJsonArray myQQMusic::RandPicutre()
     }
 
     return objArray;
+}
+
+void myQQMusic::onUpdateLikeMusic(bool isLike, const QString &musicId)
+{
+    // 1. 找到这首歌曲
+    auto it = musiclist.findMusicByMusicid(musicId);
+    if(it != musiclist.end())
+    {
+        it->setIsLike(isLike);
+    }
+    // 2. 通知三个页面进行更新数据
+    ui->likePage->reFresh(musiclist);
+    ui->localPage->reFresh(musiclist);
+    ui->recentPage->reFresh(musiclist);
 }
 
 void myQQMusic::onBtFormClick(int pageid) const

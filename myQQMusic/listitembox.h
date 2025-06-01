@@ -19,7 +19,10 @@ public:
     void setSingerName(const QString& singer);
     void setAlbumName(const QString& albumName);
     void setLikeIcon(bool like);
+    void onLikeBtnClicked();
 
+signals:
+    void setIsLike(bool);
 
 protected:
     void enterEvent(QEvent *event) override;

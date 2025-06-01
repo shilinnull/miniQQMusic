@@ -36,6 +36,10 @@ public:
 
     void setCommonPageUi(const QString& title, const QString& imagePath);
 
+signals:
+    void updataLikeMusic(bool isLike, const QString& musicId);
+
+
 private:
     // 添加音乐到音乐页面
     void addMusicToMusicPage(MusicList& musiclist);

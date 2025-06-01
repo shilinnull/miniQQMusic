@@ -1,5 +1,6 @@
 #include "listitembox.h"
 #include "ui_listitembox.h"
+#include <QDebug>
 
 ListItemBox::ListItemBox(QWidget *parent) :
     QWidget(parent),
@@ -7,10 +8,14 @@ ListItemBox::ListItemBox(QWidget *parent) :
     isLike(false)
 {
     ui->setupUi(this);
+
+    // 链接槽函数
+    connect(ui->likeBtn, &QPushButton::clicked, this, &ListItemBox::onLikeBtnClicked);
 }
 
 ListItemBox::~ListItemBox()
 {
+    qDebug() << "ListItemBox delete";
     delete ui;
 }
 
@@ -40,6 +45,13 @@ void ListItemBox::setLikeIcon(bool like)
     {
         ui->likeBtn->setIcon(QIcon(":/images/like_3.png"));
     }
+}
+
+void ListItemBox::onLikeBtnClicked()
+{
+    isLike = !isLike;
+    setIsLike(isLike);
+    emit setIsLike(isLike);
 }
 
 void ListItemBox::enterEvent(QEvent *event)

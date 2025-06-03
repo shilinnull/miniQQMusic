@@ -2,6 +2,8 @@
 #define COMMONPAGE_H
 
 #include <QWidget>
+#include <QMediaPlayer>
+#include <qmediaplaylist.h>
 #include "listitembox.h"
 #include "musiclist.h"
 #include "listitembox.h"
@@ -36,8 +38,16 @@ public:
 
     void setCommonPageUi(const QString& title, const QString& imagePath);
 
+    // 添加音乐到player
+    void addMusictoPlayer(MusicList &musiclist, QMediaPlaylist *playList);
+
+
 signals:
     void updataLikeMusic(bool isLike, const QString& musicId);
+    // 播放全部按钮
+    void playAll(PageType pagetype);
+    // 通过索引播放
+    void playMusicByIndex(CommonPage*, int);
 
 
 private:

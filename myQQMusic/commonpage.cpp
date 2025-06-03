@@ -11,6 +11,17 @@ CommonPage::CommonPage(QWidget *parent) :
 
     // 去除水平滚动条
     ui->pageMusicList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // playAll信号交由myQQMusic中处理
+    connect(ui->playAllBtn, &QPushButton::clicked, this, [=]()
+    {
+       emit playAll(pageType);
+    });
+
+    // 双击后给myQQMusic发送信号进行处理
+    connect(ui->pageMusicList, &QListWidget::doubleClicked, this, [=](const QModelIndex &index){
+        emit playMusicByIndex(this, index.row());
+    });
 }
 
 CommonPage::~CommonPage()
@@ -71,6 +82,40 @@ void CommonPage::setCommonPageUi(const QString &title, const QString &imagePath)
     ui->musicImageLabel->setPixmap(QPixmap(imagePath));
     ui->musicImageLabel->setScaledContents(true); // 自动拉伸
 }
+
+void CommonPage::addMusictoPlayer(MusicList &musiclist, QMediaPlaylist *playList)
+{
+    //根据音乐列表的所属页面，将音乐添加到playList
+    for(auto& music : musiclist)
+    {
+        switch(pageType)
+        {
+        case LIKE_PAGE:
+        {
+            if(music.getIsLike())
+            {
+                playList->addMedia(music.getMusicUrl());
+            }
+            break;
+        }
+        case LOCAL_PAGE:
+        {
+            playList->addMedia(music.getMusicUrl());
+            break;
+        }
+        case HISTORY_PAGE:
+            if(music.getIsHistory())
+            {
+                playList->addMedia(music.getMusicUrl());
+                break;
+            }
+        default:
+            qDebug() << "添加音乐错误";
+            break;
+        }
+    }
+}
+
 
 void CommonPage::addMusicToMusicPage(MusicList &musiclist)
 {

@@ -6,8 +6,12 @@
 #include <QGraphicsDropShadowEffect>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "volumetool.h"
 #include "musiclist.h"
+#include "commonpage.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class myQQMusic; }
@@ -22,6 +26,9 @@ public:
     ~myQQMusic();
     // 初始化UI
     void InitUi();
+
+    // 初始化媒体对象
+    void initPlayer();
 
     // 初始化bodyLeft中6个btForm的信息
     void setBtForm_IconTextPageId() const ;
@@ -51,6 +58,27 @@ private slots:
     void on_addLocal_clicked();
 
     void on_min_clicked();
+    void on_max_clicked();
+
+    // 播放控制
+    void onPlayClicked();
+    // 播放状态发⽣改变
+    void onPlayStateChanged();
+    // 上一曲
+    void onPlayUpCliked();
+    // 下一曲
+    void onPlayDownCliked();
+    // 播放模式设置
+    void onPlaybackModeClicked();
+    // 播放模式的图片切换
+    void onPlaybackModeChanged(QMediaPlaylist::PlaybackMode playbackMode);
+
+    // 播放所有按钮
+    void onPlayAll(PageType pagetype);
+    void playAllOfCommonPage(CommonPage* page, int index);
+
+    void playMusicByIndex(CommonPage* page, int index);
+
 
 private:
     Ui::myQQMusic *ui;
@@ -63,5 +91,12 @@ private:
 
     // 管理音乐
     MusicList musiclist;
+
+    //////////////////////////////////////////////////////
+    // 播放器相关
+    QMediaPlayer *player;
+    // 媒体列表
+    QMediaPlaylist *playList;
+
 };
 #endif // MYQQMUSIC_H

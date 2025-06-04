@@ -585,8 +585,26 @@ QPushButton:hover
 }</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="leftMargin">
+             <number>9</number>
+            </property>
+            <property name="topMargin">
+             <number>9</number>
+            </property>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>9</number>
+            </property>
             <item>
              <widget class="QStackedWidget" name="stackedWidget">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
               <widget class="QWidget" name="recPage">
                <widget class="QScrollArea" name="scrollArea">
                 <property name="geometry">
@@ -628,6 +646,21 @@ QPushButton:hover
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
                   <item>
                    <widget class="QLabel" name="recText">
                     <property name="minimumSize">

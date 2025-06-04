@@ -49,6 +49,8 @@ void myQQMusic::InitUi()
 
     // 设置默认显示页面
     ui->stackedWidget->setCurrentIndex(0);
+    // 将localPage设置为当前⻚⾯
+    curPage = ui->localPage;
 
     // 添加RecBox图片以及文本
     srand(time(NULL)); // 设置随机种子，让每次推荐的页面不一样
@@ -94,6 +96,8 @@ void myQQMusic::initPlayer()
     connect(ui->playMode, &QPushButton::clicked, this, &myQQMusic::onPlaybackModeClicked);
     // 设置点击播放器模式后图片切换
     connect(playList, &QMediaPlaylist::playbackModeChanged, this, &myQQMusic::onPlaybackModeChanged);
+    // 播放列表项发⽣改变，此时将播放⾳乐收藏到历史记录中
+    connect(playList, &QMediaPlaylist::currentIndexChanged, this, &myQQMusic::onCurrentIndexChanged);
 
 }
 
@@ -431,8 +435,22 @@ void myQQMusic::onPlayAll(PageType pagetype)
     playAllOfCommonPage(page, 0);
 }
 
+void myQQMusic::onCurrentIndexChanged(int index)
+{
+    // 音乐的id在commonPage中的musicListOfPage存放
+    const QString& musicId = curPage->getMisicIdByIndex(index);
+    auto it = musiclist.findMusicByMusicid(musicId);
+    if(it != musiclist.end())
+    {
+        it->setIsHistory(true);
+    }
+    ui->recentPage->reFresh(musiclist);
+}
+
 void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
 {
+    // 当前页面
+    curPage = page;
     // 先清空播放列表
     playList->clear();
     // 再添加当前页面到播放列表

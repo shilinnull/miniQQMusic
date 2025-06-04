@@ -41,6 +41,9 @@ public:
     // 添加音乐到player
     void addMusictoPlayer(MusicList &musiclist, QMediaPlaylist *playList);
 
+    // 通过索引获取音乐id
+    QString getMisicIdByIndex(int index) const;
+
 
 signals:
     void updataLikeMusic(bool isLike, const QString& musicId);

@@ -116,6 +116,16 @@ void CommonPage::addMusictoPlayer(MusicList &musiclist, QMediaPlaylist *playList
     }
 }
 
+QString CommonPage::getMisicIdByIndex(int index) const
+{
+    if(index > musicListOfPage.size())
+    {
+        qDebug() << "无此歌曲";
+        return "";
+    }
+    return musicListOfPage[index];
+}
+
 
 void CommonPage::addMusicToMusicPage(MusicList &musiclist)
 {

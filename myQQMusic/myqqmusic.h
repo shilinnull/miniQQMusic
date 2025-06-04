@@ -45,6 +45,10 @@ public:
     // 响应commonPage的信号
     void onUpdateLikeMusic(bool isLike, const QString& musicId);
 
+    // 播放当前页面所有歌曲
+    void playAllOfCommonPage(CommonPage* page, int index);
+    // 通过下标播放音乐
+    void playMusicByIndex(CommonPage* page, int index);
 protected:
     // 重写QWidget类的⿏标单击和⿏标滚轮事件
     void mousePressEvent(QMouseEvent* event) override;
@@ -75,9 +79,9 @@ private slots:
 
     // 播放所有按钮
     void onPlayAll(PageType pagetype);
-    void playAllOfCommonPage(CommonPage* page, int index);
 
-    void playMusicByIndex(CommonPage* page, int index);
+    // 当前下标被更换，播放列表项发⽣改变，此时将播放⾳乐收藏到历史记录中
+    void onCurrentIndexChanged(int index);
 
 
 private:
@@ -97,6 +101,9 @@ private:
     QMediaPlayer *player;
     // 媒体列表
     QMediaPlaylist *playList;
+
+    // 当前页面
+    CommonPage* curPage;
 
 };
 #endif // MYQQMUSIC_H

@@ -16,12 +16,29 @@ class VolumeTool : public QWidget
 public:
     explicit VolumeTool(QWidget *parent = nullptr);
     ~VolumeTool();
+    // 设置是否静音
+    void onSilenceBtnClicked();
+    // 设置音量大小
+    void setVolume();
 
+private slots:
+
+
+signals:
+    void setSilence(bool);
+    // 设置音量大小
+    void setMusicVolume(int);
 protected:
     void paintEvent(QPaintEvent* event) override;
+    bool eventFilter(QObject* object, QEvent* event);
 
 private:
     Ui::VolumeTool *ui;
+
+    // 设置静音
+    bool isMuted;
+    // 设置音量大小
+    int volumeRatio;
 };
 
 #endif // VOLUMETOOL_H

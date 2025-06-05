@@ -539,7 +539,7 @@ void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
     page->addMusictoPlayer(musiclist, playList);
     // 设置当前播放列表索引
     playList->setCurrentIndex(index);
-
+    // 播放
     player->play();
 }
 

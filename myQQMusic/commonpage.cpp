@@ -2,6 +2,7 @@
 #include "ui_commonpage.h"
 
 #include <QDebug>
+#include <QPixmap>
 
 CommonPage::CommonPage(QWidget *parent) :
     QWidget(parent),
@@ -32,6 +33,12 @@ CommonPage::~CommonPage()
 void CommonPage::setMusicListType(PageType pagetype)
 {
     this->pageType = pagetype;
+}
+
+void CommonPage::setMusicImage(QPixmap pixmap)
+{
+    ui->musicImageLabel->setPixmap(pixmap);
+    ui->musicImageLabel->setScaledContents(true);
 }
 
 void CommonPage::reFresh(MusicList& musiclist)

@@ -8,6 +8,10 @@
 #include <QJsonObject>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QFileDialog>
+#include <QPixmap>
+#include <QDebug>
+
 #include "volumetool.h"
 #include "musiclist.h"
 #include "commonpage.h"
@@ -58,6 +62,8 @@ private slots:
     void on_quit_clicked();
 
     void on_volume_clicked();
+    // 设置是否静音
+    void setMusicSilence(bool isMuted);
 
     void on_addLocal_clicked();
 
@@ -82,8 +88,16 @@ private slots:
 
     // 当前下标被更换，播放列表项发⽣改变，此时将播放⾳乐收藏到历史记录中
     void onCurrentIndexChanged(int index);
-
-
+    // 设置音量大小
+    void setPlayerVolume(int volume);
+    // 设置播放媒体的总时⻓
+    void onDurationChanged(qint64 duration);
+    // 设置当前播放时长
+    void onPositionChanged(qint64 duration);
+    // 进度条变化
+    void onMusicSliderChanged(float value);
+    // 歌曲数据发生变化
+    void onMetaDataAvailableChanged(bool available);
 private:
     Ui::myQQMusic *ui;
 
@@ -101,9 +115,12 @@ private:
     QMediaPlayer *player;
     // 媒体列表
     QMediaPlaylist *playList;
-
     // 当前页面
     CommonPage* curPage;
+    int currentIndex;
+
+    // 当前歌曲总时长
+    qint64 totalDuration;
 
 };
 #endif // MYQQMUSIC_H

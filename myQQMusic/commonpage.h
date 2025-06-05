@@ -33,6 +33,8 @@ public:
     // 设置page属性
     void setMusicListType(PageType pagetype);
 
+    // 设置封面图
+    void setMusicImage(QPixmap pixmap);
     // 添加
     void reFresh(MusicList& musiclist);
 

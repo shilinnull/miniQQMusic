@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QGraphicsDropShadowEffect>
+#include <QPropertyAnimation>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMediaPlayer>
@@ -15,6 +16,7 @@
 #include "volumetool.h"
 #include "musiclist.h"
 #include "commonpage.h"
+#include "lrcpage.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -68,7 +70,6 @@ private slots:
     void on_addLocal_clicked();
 
     void on_min_clicked();
-    void on_max_clicked();
 
     // 播放控制
     void onPlayClicked();
@@ -98,6 +99,8 @@ private slots:
     void onMusicSliderChanged(float value);
     // 歌曲数据发生变化
     void onMetaDataAvailableChanged(bool available);
+    // 歌词显示
+    void onLrcWordClicked();
 private:
     Ui::myQQMusic *ui;
 
@@ -121,6 +124,11 @@ private:
 
     // 当前歌曲总时长
     qint64 totalDuration;
+
+    // 歌词
+    LrcPage* lrcPage;
+    // 点击歌词弹出动画
+    QPropertyAnimation* lrcAnimation;
 
 };
 #endif // MYQQMUSIC_H

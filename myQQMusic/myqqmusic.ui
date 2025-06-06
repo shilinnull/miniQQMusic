@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="spacing">
     <number>0</number>
@@ -317,6 +320,9 @@ QPushButton:hover
                </item>
                <item>
                 <widget class="QPushButton" name="max">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="minimumSize">
                   <size>
                    <width>30</width>
@@ -1108,7 +1114,7 @@ QPushButton:hover
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton">
+                   <widget class="QPushButton" name="lrcword">
                     <property name="minimumSize">
                      <size>
                       <width>30</width>

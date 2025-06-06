@@ -19,6 +19,7 @@ public:
     void setSingerName(const QString& singer);
     void setAlbumName(const QString& albumName);
     void setLikeIcon(bool like);
+private slots:
     void onLikeBtnClicked();
 
 signals:
@@ -27,6 +28,7 @@ signals:
 protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
+//    void mousePressEvent(QMouseEvent *event) override;
 
 private:
     Ui::ListItemBox *ui;

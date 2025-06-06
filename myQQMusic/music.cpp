@@ -150,7 +150,15 @@ void Music::parseMediaMetaData()
     }
 }
 
+QString Music::getLrcFilePath() const
+{
+    QString path = musicUrl.toLocalFile();
+    path.replace(".mp3", ".lrc");
+    path.replace(".flac", ".lrc");
+    path.replace(".mpga", ".lrc");
 
+    return path;
+}
 
 
 

@@ -28,7 +28,11 @@ public:
     QUrl getMusicUrl()const;
     QString getMusicId()const;
 
+    // 获取歌词文件路径
+    QString getLrcFilePath() const;
+
 private:
+    // 解析数据
     void parseMediaMetaData();
 
 private:

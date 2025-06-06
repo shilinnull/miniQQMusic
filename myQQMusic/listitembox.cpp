@@ -1,6 +1,7 @@
 #include "listitembox.h"
 #include "ui_listitembox.h"
 #include <QDebug>
+#include <QMouseEvent>
 
 ListItemBox::ListItemBox(QWidget *parent) :
     QWidget(parent),
@@ -58,6 +59,7 @@ void ListItemBox::enterEvent(QEvent *event)
 {
     (void)event;
     setStyleSheet("background-color:#EFEFEF");
+
 }
 
 void ListItemBox::leaveEvent(QEvent *event)
@@ -65,3 +67,11 @@ void ListItemBox::leaveEvent(QEvent *event)
     (void)event;
     setStyleSheet("");
 }
+
+//void ListItemBox::mousePressEvent(QMouseEvent *event)
+//{
+////    if(event->buttons() == Qt::LeftButton)
+//    {
+//        qDebug() << "MouseButtonPress";
+//    }
+//}

@@ -69,6 +69,18 @@ void myQQMusic::InitUi()
     ui->play->setIcon(QIcon(":/images/play_2.png"));
     ui->playMode->setToolTip("单曲循环");
     ui->playMode->setIcon(QIcon(":/images/list_play.png"));
+
+    // 创建lrc歌词窗口
+    lrcPage = new LrcPage(this);
+    lrcPage->setGeometry(10, 10, lrcPage->width(), lrcPage->height());
+    lrcPage->hide(); // 默认隐藏
+
+    // lrc添加动画效果
+    lrcAnimation = new QPropertyAnimation(lrcPage, "geometry", this);
+    lrcAnimation->setDuration(500);
+    lrcAnimation->setStartValue(QRect(10, 10 + lrcPage->height(), lrcPage->width(), lrcPage->height()));
+    lrcAnimation->setEndValue(QRect(10, 10, lrcPage->width(), lrcPage->height()));
+
 }
 
 void myQQMusic::initPlayer()
@@ -151,6 +163,8 @@ void myQQMusic::connectSignalAndSlot() const
     // 设置进度条变化
     connect(ui->prosessBar, &MusicSlider::setMusicSliderPosition, this, &myQQMusic::onMusicSliderChanged);
 
+    // 显示歌词窗口
+    connect(ui->lrcword, &QPushButton::clicked, this, &myQQMusic::onLrcWordClicked);
 }
 
 QJsonArray myQQMusic::RandPicutre()
@@ -326,15 +340,9 @@ void myQQMusic::on_addLocal_clicked()
     }
 }
 
-
 void myQQMusic::on_min_clicked()
 {
     showMinimized();
-}
-
-void myQQMusic::on_max_clicked()
-{
-    showMaximized();
 }
 
 
@@ -477,10 +485,17 @@ void myQQMusic::onDurationChanged(qint64 duration)
 
 void myQQMusic::onPositionChanged(qint64 duration)
 {
+    // 1. 更新当前时间
     ui->currentTime->setText(QString("%1:%2").arg(duration/1000/60, 2, 10, QChar('0'))
                              .arg(duration/1000%60, 2, 10, QChar('0')));
-    // 进度条也要发送改变
+    // 2. 进度条也要发送改变
     ui->prosessBar->setStep((float)duration / totalDuration);
+
+    // 3. 同步歌词
+    if(playList->currentIndex() >= 0)
+    {
+        lrcPage->showLrcWord(duration);
+    }
 }
 
 void myQQMusic::onMusicSliderChanged(float value)
@@ -527,6 +542,18 @@ void myQQMusic::onMetaDataAvailableChanged(bool available)
         ui->musicCover->setPixmap(path);
         curPage->setMusicImage(path);
     }
+
+    // 加载lrc歌词
+    if(it != musiclist.end())
+    {
+        lrcPage->parseLrc(it->getLrcFilePath());
+    }
+}
+
+void myQQMusic::onLrcWordClicked()
+{
+    lrcPage->show();
+    lrcAnimation->start();
 }
 
 void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
@@ -539,7 +566,7 @@ void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
     page->addMusictoPlayer(musiclist, playList);
     // 设置当前播放列表索引
     playList->setCurrentIndex(index);
-
+    // 播放
     player->play();
 }
 

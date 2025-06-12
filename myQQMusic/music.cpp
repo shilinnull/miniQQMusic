@@ -160,6 +160,55 @@ QString Music::getLrcFilePath() const
     return path;
 }
 
+void Music::insertMusicToDB()
+{
+    // 1. 检测是否在数据库存在
+    QSqlQuery query;
+    query.prepare("SELECT EXISTS (SELECT 1 FROM MusicInfo WHERE musicId = ?)");
+    query.addBindValue(musicId);
+    if(!query.exec())
+    {
+        qDebug()<<"查询失败: "<<query.lastError().text();
+        return;
+    }
+    if(query.next())
+    {
+        bool isExists = query.value(0).toBool();
+        if(isExists) // 存在
+        {
+            // 存在的话就不需要插入music对象，只需要更新isLike和isHistory属性
+            query.prepare("UPDATE MusicInfo SET isLike = ?, isHistory = ? WHERE musicId = ?");
+            query.addBindValue(isLike ? 1 : 0);
+            query.addBindValue(isHistory ? 1 : 0);
+            query.addBindValue(musicId);
+            if(!query.exec())
+            {
+                qDebug()<<"更新失败: "<<query.lastError().text();
+            }
+            qDebug()<<"更新music信息: "<<musicName<<" "<<musicId;
+        }
+        else // 不存在的话直接将music的所有属性插入到数据库
+        {
+            query.prepare("INSERT INTO MusicInfo(musicId, musicName, musicSinger, albumName, musicUrl,\
+                                                 duration, isLike, isHistory)\
+                                                 VALUES(?,?,?,?,?,?,?,?)");
+            query.addBindValue(musicId);
+            query.addBindValue(musicName);
+            query.addBindValue(singerName);
+            query.addBindValue(albumName);
+            query.addBindValue(musicUrl.toLocalFile());
+            query.addBindValue(duration);
+            query.addBindValue(isLike ? 1 : 0);
+            query.addBindValue(isHistory ? 1 : 0);
+            if(!query.exec())
+            {
+                qDebug()<<"插入失败: "<<query.lastError().text();
+            }
+            qDebug()<<"插入music信息: "<<musicName<<" "<<musicId;
+        }
+    }
+}
+
 
 
 

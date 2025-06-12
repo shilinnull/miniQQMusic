@@ -21,16 +21,13 @@ public:
     // 设置音量大小
     void setVolume();
 
-private slots:
-
-
 signals:
     void setSilence(bool);
     // 设置音量大小
     void setMusicVolume(int);
 protected:
     void paintEvent(QPaintEvent* event) override;
-    bool eventFilter(QObject* object, QEvent* event);
+    bool eventFilter(QObject* object, QEvent* event)override;
 
 private:
     Ui::VolumeTool *ui;

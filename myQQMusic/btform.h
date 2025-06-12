@@ -31,7 +31,7 @@ public:
     void setline1Animal();
 
     // 显示动画
-    void showAnimal();
+    void showAnimal(bool isShow);
 
 signals:
     void click(int id);

@@ -11,7 +11,13 @@
 #include <QMediaPlaylist>
 #include <QFileDialog>
 #include <QPixmap>
+#include <QSqlDatabase>
+#include <QMessageBox>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <QDebug>
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 #include "volumetool.h"
 #include "musiclist.h"
@@ -30,17 +36,24 @@ class myQQMusic : public QWidget
 public:
     myQQMusic(QWidget *parent = nullptr);
     ~myQQMusic();
+
     // 初始化UI
     void InitUi();
 
     // 初始化媒体对象
     void initPlayer();
 
+    // 初始化数据库
+    void initSqlite();
+
+    // 初始化musicList
+    void initMusicList();
+
     // 初始化bodyLeft中6个btForm的信息
     void setBtForm_IconTextPageId() const ;
 
     // btForm点击槽函数
-    void onBtFormClick(int pageid) const;
+    void onBtFormClick(int pageid) ;
 
     // 处理信号槽函数
     void connectSignalAndSlot() const;
@@ -53,8 +66,16 @@ public:
 
     // 播放当前页面所有歌曲
     void playAllOfCommonPage(CommonPage* page, int index);
+
     // 通过下标播放音乐
     void playMusicByIndex(CommonPage* page, int index);
+
+    // 更新btForm动画
+    void updateBtformAnimal();
+
+    // 退出QQMusic
+    void quitQQMusic();
+
 protected:
     // 重写QWidget类的⿏标单击和⿏标滚轮事件
     void mousePressEvent(QMouseEvent* event) override;
@@ -101,11 +122,16 @@ private slots:
     void onMetaDataAvailableChanged(bool available);
     // 歌词显示
     void onLrcWordClicked();
+    void on_skin_clicked();
+
 private:
     Ui::myQQMusic *ui;
 
     // 记录光标相对于窗口标题栏的相对距离
     QPoint dragPosition;
+
+    // 窗口拖拽
+    bool isDrag;
 
     // 添加音量弹出按钮
     VolumeTool* volumeTool;
@@ -129,6 +155,9 @@ private:
     LrcPage* lrcPage;
     // 点击歌词弹出动画
     QPropertyAnimation* lrcAnimation;
+
+    // 数据库文件
+    QSqlDatabase sqlite;
 
 };
 #endif // MYQQMUSIC_H

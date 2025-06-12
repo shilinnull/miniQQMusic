@@ -4,6 +4,7 @@
 myQQMusic::myQQMusic(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::myQQMusic)
+    , isDrag(false)
     , currentIndex(-1)
     , totalDuration(0)
 {
@@ -11,6 +12,12 @@ myQQMusic::myQQMusic(QWidget *parent)
 
     // 初始化Ui
     InitUi();
+
+    // 初始化数据库
+    initSqlite();
+
+    // 初始化MusicList
+    initMusicList();
 
     // 初始化媒体
     initPlayer();
@@ -32,6 +39,11 @@ void myQQMusic::InitUi()
     // 设置窗口边界阴影偏移
     this->setAttribute(Qt::WA_TranslucentBackground);
 
+    // 设置窗口图标
+    this->setWindowIcon(QIcon(":/images/tubiao.png"));
+
+    this->setWindowTitle("myQQMusic");
+
     // 给窗口设置透明度
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
     shadowEffect->setOffset(0, 0);// 设置阴影偏移
@@ -39,16 +51,29 @@ void myQQMusic::InitUi()
     shadowEffect->setBlurRadius(10); // 设置阴影的模糊半径
     this->setGraphicsEffect(shadowEffect);
 
+    // 添加托盘图标
+    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(QIcon(":/images/tubiao.png"));
+    // 创建托盘菜单
+    QMenu *trayMenu = new QMenu(this);
+    trayMenu->addAction("还原", this, &QWidget::showNormal);
+    trayMenu->addSeparator();
+    trayMenu->addAction("退出", this, &myQQMusic::quitQQMusic);
+    trayIcon->setContextMenu(trayMenu); // 将托盘菜单添加到托盘图标
+    trayIcon->show(); // 显示
+
+
     // 设置BodyLeft中6个btForm的信息
     setBtForm_IconTextPageId();
-
-    // 本地下载BtForm动画默认显⽰
-    ui->local->showAnimal();
 
     // 设置默认显示页面
     ui->stackedWidget->setCurrentIndex(4);
     // 将localPage设置为当前⻚⾯
     curPage = ui->localPage;
+    updateBtformAnimal();
+
+    // 本地下载BtForm动画默认显⽰
+    ui->local->showAnimal(true);
 
     // 添加RecBox图片以及文本
     srand(time(NULL)); // 设置随机种子，让每次推荐的页面不一样
@@ -59,9 +84,6 @@ void myQQMusic::InitUi()
     ui->likePage->setCommonPageUi("我喜欢", ":/images/ilikebg.png");
     ui->localPage->setCommonPageUi("本地音乐", ":/images/localbg.png");
     ui->recentPage->setCommonPageUi("最近播放", ":/images/recentbg.png");
-    ui->likePage->setMusicListType(PageType::LIKE_PAGE);
-    ui->localPage->setMusicListType(PageType::LOCAL_PAGE);
-    ui->recentPage->setMusicListType(PageType::HISTORY_PAGE);
 
     // 播放控制区
     // 创建⾳量调节窗口对象并挂到对象树
@@ -114,6 +136,55 @@ void myQQMusic::initPlayer()
     // 媒体数据发生变化
     connect(player, &QMediaPlayer::metaDataAvailableChanged, this, &myQQMusic::onMetaDataAvailableChanged);
 
+}
+
+void myQQMusic::initSqlite()
+{
+    // 1. 初始化数据库
+    sqlite = QSqlDatabase::addDatabase("QSQLITE");
+
+    // 2. 设置数据库名称
+    sqlite.setDatabaseName("QQMusic.db");
+
+    // 3. 打开数据库
+    if(!sqlite.open())
+    {
+        QMessageBox::critical(this, "打开QQMusicDB失败", sqlite.lastError().text());
+        return;
+    }
+    qDebug()<<"SQLite连接成功，并创建 [QQMusic.db] 数据库!!!";
+    // 4. 创建数据库表
+    QString sql = ("CREATE TABLE IF NOT EXISTS musicInfo(\
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,\
+                    musicId varchar(200) UNIQUE,\
+                    musicName varchar(50),\
+                    musicSinger varchar(50),\
+                    albumName varchar(50),\
+                    duration BIGINT,\
+                    musicUrl varchar(256),\
+                    isLike INTEGER,\
+                    isHistory INTEGER)");
+    QSqlQuery query;
+    if(!query.exec(sql))
+    {
+        QMessageBox::critical(this, "插入QQMusicDB失败", sqlite.lastError().text());
+        return;
+    }
+    qDebug() << "创建 [musicInfo] 表成功!!!";
+
+}
+
+void myQQMusic::initMusicList()
+{
+    // 1. 从数据库中读
+    musiclist.readFromDB();
+    // 2. 更新commpage页面
+    ui->likePage->setMusicListType(PageType::LIKE_PAGE);
+    ui->likePage->reFresh(musiclist);
+    ui->localPage->setMusicListType(PageType::LOCAL_PAGE);
+    ui->localPage->reFresh(musiclist);
+    ui->recentPage->setMusicListType(PageType::HISTORY_PAGE);
+    ui->recentPage->reFresh(musiclist);
 }
 
 void myQQMusic::setBtForm_IconTextPageId() const
@@ -219,7 +290,7 @@ void myQQMusic::onUpdateLikeMusic(bool isLike, const QString &musicId)
     ui->recentPage->reFresh(musiclist);
 }
 
-void myQQMusic::onBtFormClick(int pageid) const
+void myQQMusic::onBtFormClick(int pageid)
 {
     // 清除当前页面所有btFrom按钮背景颜色
     // 1.获取当前⻚⾯所有btFrom按钮类型的对象
@@ -235,6 +306,8 @@ void myQQMusic::onBtFormClick(int pageid) const
 
     // 3.显⽰⻚⾯
     ui->stackedWidget->setCurrentIndex(pageid);
+    qDebug() << "切换⻚⾯" << pageid;
+    isDrag = false;
 }
 
 void myQQMusic::mousePressEvent(QMouseEvent *event)
@@ -242,6 +315,7 @@ void myQQMusic::mousePressEvent(QMouseEvent *event)
     // 按下鼠标左键
     if(event->button() == Qt::LeftButton)
     {
+        isDrag = true;
         // 记录位置，获取⿏标相对于屏幕左上⻆的全局坐标
         dragPosition = event->globalPos() - frameGeometry().topLeft();
         return;
@@ -252,7 +326,7 @@ void myQQMusic::mousePressEvent(QMouseEvent *event)
 
 void myQQMusic::mouseMoveEvent(QMouseEvent *event)
 {
-    if(event->buttons() == Qt::LeftButton)
+    if(event->buttons() == Qt::LeftButton && isDrag)
     {
         this->move(event->globalPos() - dragPosition);
         return;
@@ -262,7 +336,14 @@ void myQQMusic::mouseMoveEvent(QMouseEvent *event)
 
 void myQQMusic::on_quit_clicked()
 {
-    this->close();
+    // 写入数据库
+    musiclist.writeToDB();
+
+    // 关闭数据库连接
+    sqlite.close();
+
+    // 隐藏窗口
+    hide();
 }
 
 void myQQMusic::on_volume_clicked()
@@ -331,7 +412,6 @@ void myQQMusic::on_addLocal_clicked()
         // 管理的是解析music对象
         musiclist.addMusicByUrl(urls);
 
-        qDebug() << musiclist.musicList.size();
         // 将歌曲信息更新到commonpage页面中的listwidget中(本地页面)
         ui->localPage->reFresh(musiclist);
 
@@ -560,6 +640,8 @@ void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
 {
     // 当前页面
     curPage = page;
+    updateBtformAnimal();
+
     // 先清空播放列表
     playList->clear();
     // 再添加当前页面到播放列表
@@ -573,4 +655,40 @@ void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
 void myQQMusic::playMusicByIndex(CommonPage *page, int index)
 {
     playAllOfCommonPage(page, index);
+}
+
+void myQQMusic::updateBtformAnimal()
+{
+    // 获取currentPage在stackedWidget中的索引
+    int index = ui->stackedWidget->indexOf(curPage);
+    if(-1 == index)
+    {
+        qDebug() << "页面不存在";
+        return;
+    }
+
+    // 获取QQMusci界⾯上所有的btForm
+    QList<BtForm*> btForms = this->findChildren<BtForm*>();
+    for(auto& btform : btForms)
+    {
+        qDebug() << "auto& btform : btForms";
+        if(btform->getId() == index)
+        {
+            btform->showAnimal(true);
+        }
+        else
+        {
+            btform->showAnimal(false);
+        }
+    }
+}
+
+void myQQMusic::quitQQMusic()
+{
+    this->close();
+}
+
+void myQQMusic::on_skin_clicked()
+{
+    QMessageBox::information(this, "温馨提⽰", "还没开发呢！！！");
 }

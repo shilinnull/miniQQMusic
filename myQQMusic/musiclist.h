@@ -4,6 +4,9 @@
 #include <QVector>
 #include <QUrl>
 #include <QMimeDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSet>
 
 
 #include "music.h"
@@ -18,13 +21,17 @@ public:
     void addMusicByUrl(const QList<QUrl>& urls);
 
     iterator begin();
-
     iterator end();
-
     iterator findMusicByMusicid(const QString& musicId);
 
+    // 写数据
+    void writeToDB();
+    // 读数据
+    void readFromDB();
 
+private:
     QVector<Music> musicList;
+    QSet<QString> musicPaths;
 };
 
 #endif // MUSICLIST_H

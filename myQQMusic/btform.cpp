@@ -7,8 +7,9 @@ BtForm::BtForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->lineBox->hide();
+
     // 设置lineBox动画效果
-//    ui->lineBox->hide(); // 隐藏其他的
     setline1Animal();
 }
 
@@ -81,9 +82,16 @@ void BtForm::setline1Animal()
     animationLine4->start();
 }
 
-void BtForm::showAnimal()
+void BtForm::showAnimal(bool isShow)
 {
-    ui->lineBox->show();
+    if(isShow)
+    {
+        ui->lineBox->show();
+    }
+    else
+    {
+        ui->lineBox->hide();
+    }
 }
 
 void BtForm::mousePressEvent(QMouseEvent *event)

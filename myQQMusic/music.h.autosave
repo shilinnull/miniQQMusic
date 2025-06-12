@@ -49,7 +49,6 @@ private:
     QString albumName;
     qint64 duration;
 
-
     // 标记歌曲的唯一性
     QString musicId;
 

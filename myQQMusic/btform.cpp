@@ -6,11 +6,8 @@ BtForm::BtForm(QWidget *parent) :
     ui(new Ui::BtForm)
 {
     ui->setupUi(this);
-
     ui->lineBox->hide();
-
-    // 设置lineBox动画效果
-    setline1Animal();
+    setline1Animal(); // 设置lineBox动画效果
 }
 
 BtForm::~BtForm()
@@ -20,14 +17,9 @@ BtForm::~BtForm()
 
 void BtForm::setIconTextId(const QString &btIcon, const QString &text, int pageid)
 {
-    // 设置图片
-    ui->btIcon->setPixmap(QPixmap(btIcon));
-
-    // 设置文本
-    ui->btText->setText(text);
-
-    // 设置id
-    this->pageId = pageid;
+    ui->btIcon->setPixmap(QPixmap(btIcon)); // 设置图片
+    ui->btText->setText(text);             // 设置文本
+    this->pageId = pageid;                 // 设置页面ID
 }
 
 int BtForm::getId()
@@ -37,12 +29,17 @@ int BtForm::getId()
 
 void BtForm::clearBg()
 {
-    // 清除上一个，恢复之前的
+    // 恢复默认样式
     ui->btStyle->setStyleSheet("#btStyle{ background:#D8D8D8;} "
                                "#btStyle:hover{ background:rgb(170, 170, 255);} "
                                "#btText{ color:black;}");
 }
 
+/**
+ * @brief 设置线条动画效果
+ * 为四个线条创建循环动画，每个线条有不同的持续时间以实现交错效果
+ * 动画使线条从中间向上下扩展后收缩，形成脉冲效果
+ */
 void BtForm::setline1Animal()
 {
     // 设置line1的动画效果
@@ -98,10 +95,9 @@ void BtForm::mousePressEvent(QMouseEvent *event)
 {
     (void)event;
 
-    // 鼠标点击后，设置样式
-    // 背景变成绿色，文字变成白色
+    // 鼠标点击后设置选中样式
     ui->btStyle->setStyleSheet("#btStyle{ background:rgb(170, 170, 255);} #btText{ color:#F6F6F6;}");
 
-    // 给myQQMusic发送信号
+    // 发送点击信号
     emit click(this->pageId);
 }

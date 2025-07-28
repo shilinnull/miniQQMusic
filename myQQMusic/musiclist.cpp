@@ -1,11 +1,14 @@
 #include "musiclist.h"
-#include <QDebug>
+
 
 MusicList::MusicList()
 {
 
 }
 
+/*! \brief 通过URL列表添加音乐到列表
+ \param urls 音乐文件URL的列表
+ \details 检查文件格式是否支持，避免重复添加，并从URL解析元数据创建Music对象 */
 void MusicList::addMusicByUrl(const QList<QUrl> &urls)
 {
     for(auto& musicUrl: urls)
@@ -33,16 +36,23 @@ void MusicList::addMusicByUrl(const QList<QUrl> &urls)
     }
 }
 
+/*! \brief 返回音乐列表的起始迭代器
+ \return 指向列表第一个元素的迭代器 */
 MusicList::iterator MusicList::begin()
 {
     return musicList.begin();
 }
 
+/*! \brief 返回音乐列表的结束迭代器
+ \return 指向列表最后一个元素之后位置的迭代器 */
 MusicList::iterator MusicList::end()
 {
     return musicList.end();
 }
 
+/*! \brief 通过音乐ID查找音乐迭代器
+ \param musicId 要查找的音乐ID
+ \return 找到的音乐项迭代器，若未找到则返回end() */
 MusicList::iterator MusicList::findMusicByMusicid(const QString &musicId)
 {
     for(iterator it = begin(); it!= end(); ++it)
@@ -55,6 +65,8 @@ MusicList::iterator MusicList::findMusicByMusicid(const QString &musicId)
     return end();
 }
 
+/*! \brief 将音乐列表写入数据库
+ \details 遍历音乐列表，对每个音乐项调用insertMusicToDB方法保存到数据库 */
 void MusicList::writeToDB()
 {
     for(auto music : musicList)
@@ -63,6 +75,8 @@ void MusicList::writeToDB()
     }
 }
 
+/*! \brief 从数据库读取音乐列表
+ \details 执行SQL查询获取所有音乐记录，重建音乐列表并恢复元数据 */
 void MusicList::readFromDB()
 {
     QString sql("SELECT musicId, musicName, musicSinger, albumName,\
@@ -71,7 +85,6 @@ void MusicList::readFromDB()
     QSqlQuery query;
     if(!query.exec(sql))
     {
-        qDebug()<<"数据库查询失败!" << query.lastError().text();
         return;
     }
     while(query.next())

@@ -276,6 +276,11 @@ QJsonArray myQQMusic::RandPicutre()
     return objArray;
 }
 
+/**
+ * @brief 更新音乐的收藏状态
+ * @param isLike 新的收藏状态(true为收藏，false为取消收藏)
+ * @param musicId 音乐ID
+ */
 void myQQMusic::onUpdateLikeMusic(bool isLike, const QString &musicId)
 {
     // 1. 找到这首歌曲
@@ -290,6 +295,10 @@ void myQQMusic::onUpdateLikeMusic(bool isLike, const QString &musicId)
     ui->recentPage->reFresh(musiclist);
 }
 
+/**
+ * @brief 处理BtForm按钮点击事件，切换页面并更新按钮状态
+ * @param pageid 要切换到的页面ID
+ */
 void myQQMusic::onBtFormClick(int pageid)
 {
     // 清除当前页面所有btFrom按钮背景颜色
@@ -310,6 +319,10 @@ void myQQMusic::onBtFormClick(int pageid)
     isDrag = false;
 }
 
+/**
+ * @brief 鼠标按下事件处理，支持窗口拖动
+ * @param event 鼠标事件对象
+ */
 void myQQMusic::mousePressEvent(QMouseEvent *event)
 {
     // 按下鼠标左键
@@ -324,6 +337,10 @@ void myQQMusic::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
 }
 
+/**
+ * @brief 鼠标移动事件处理，实现窗口拖动
+ * @param event 鼠标事件对象
+ */
 void myQQMusic::mouseMoveEvent(QMouseEvent *event)
 {
     if(event->buttons() == Qt::LeftButton && isDrag)
@@ -334,6 +351,10 @@ void myQQMusic::mouseMoveEvent(QMouseEvent *event)
     QWidget::mouseMoveEvent(event);
 }
 
+/**
+ * @brief 退出按钮点击事件处理
+ * 保存数据到数据库，关闭数据库连接并隐藏窗口
+ */
 void myQQMusic::on_quit_clicked()
 {
     // 写入数据库
@@ -346,6 +367,10 @@ void myQQMusic::on_quit_clicked()
     hide();
 }
 
+/**
+ * @brief 音量按钮点击事件处理
+ * 显示音量控制窗口并定位到适当位置
+ */
 void myQQMusic::on_volume_clicked()
 {
     // 先要调整窗⼝的显⽰位置，否则该窗⼝在主窗⼝的左上⻆
@@ -364,11 +389,19 @@ void myQQMusic::on_volume_clicked()
     volumeTool->show();
 }
 
+/**
+ * @brief 设置音乐静音状态
+ * @param isMuted 是否静音(true为静音，false为取消静音)
+ */
 void myQQMusic::setMusicSilence(bool isMuted)
 {
     player->setMuted(isMuted);
 }
 
+/**
+ * @brief 添加本地音乐按钮点击事件处理
+ * 打开文件对话框选择音乐文件并添加到播放列表
+ */
 void myQQMusic::on_addLocal_clicked()
 {
     qDebug() << "on_addLocal_clicked";
@@ -420,6 +453,10 @@ void myQQMusic::on_addLocal_clicked()
     }
 }
 
+/**
+ * @brief 最小化按钮点击事件处理
+ * 将窗口最小化显示
+ */
 void myQQMusic::on_min_clicked()
 {
     showMinimized();
@@ -427,6 +464,10 @@ void myQQMusic::on_min_clicked()
 
 
 ///////////////////////////////////////////////////////
+/**
+ * @brief 播放/暂停按钮点击事件处理
+ * 根据当前播放状态切换播放/暂停
+ */
 void myQQMusic::onPlayClicked()
 {
     qDebug() << "onPlayClicked";
@@ -474,7 +515,7 @@ void myQQMusic::onPlayDownCliked()
 
 void myQQMusic::onPlaybackModeClicked()
 {
-    qDebug() <<"onPlaybackModeClicked";
+
     if(playList->playbackMode() == QMediaPlaylist::Loop)
     {
         ui->playMode->setToolTip("随机播放");
@@ -492,7 +533,7 @@ void myQQMusic::onPlaybackModeClicked()
     }
     else
     {
-        qDebug() << "播放格式错误";
+
     }
 }
 
@@ -512,7 +553,7 @@ void myQQMusic::onPlaybackModeChanged(QMediaPlaylist::PlaybackMode playbackMode)
     }
     else
     {
-        qDebug()<<"暂不⽀持该模式";
+
     }
 }
 
@@ -531,7 +572,7 @@ void myQQMusic::onPlayAll(PageType pagetype)
         page = ui->recentPage;
         break;
     default:
-        qDebug() << "未支持";
+        break;
     }
     // 从0开始播放
     playAllOfCommonPage(page, 0);
@@ -593,7 +634,7 @@ void myQQMusic::onMusicSliderChanged(float value)
 void myQQMusic::onMetaDataAvailableChanged(bool available)
 {
     (void)available;
-    qDebug() << "歌曲切换";
+
     // 1. 从player播放歌曲的元数据中获取歌曲信息
     QString musicId = curPage->getMisicIdByIndex(currentIndex);
     auto it = musiclist.findMusicByMusicid(musicId);
@@ -617,7 +658,7 @@ void myQQMusic::onMetaDataAvailableChanged(bool available)
     }
     else
     {
-        qDebug()<<"歌曲没有封面图";
+
         QString path = ":/images/rec/001.png";
         ui->musicCover->setPixmap(path);
         curPage->setMusicImage(path);

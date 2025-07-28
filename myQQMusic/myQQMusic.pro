@@ -4,7 +4,11 @@ DEFINES += QT_NO_DEBUG_OUTPUT
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+#CONFIG += c++11
+# 不检查SDK版本
+CONFIG += sdk_no_version_check
+# 降低SDK版本
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings

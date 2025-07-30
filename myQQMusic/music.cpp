@@ -1,21 +1,31 @@
 #include "music.h"
+<<<<<<< HEAD
 
+=======
+>>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 
+/**
+ * @brief Music 默认构造函数
+ * 初始化收藏和历史状态为false
+ */
 Music::Music()
     :isLike(false)
     ,isHistory(false)
 {
 }
+/**
+ * @brief Music 构造函数
+ * @param url 音乐文件URL
+ * 初始化收藏和历史状态，生成唯一ID，并解析元数据
+ */
 Music::Music(const QUrl& url)
     :isLike(false)
     ,isHistory(false)
     ,musicUrl(url)
 {
-    // 音乐唯一id
+    // 生成音乐唯一ID
     musicId = QUuid::createUuid().toString();
     // 解析歌曲元数据
-    // 读取url对应的歌曲文件的信息，解析出元数据
-    // 歌曲名称、歌曲作者、歌曲专辑、歌曲持续时长
     parseMediaMetaData();
 }
 
@@ -85,20 +95,24 @@ QString Music::getMusicId()const
     return musicId;
 }
 
+/**
+ * @brief 解析音乐元数据
+ * 从音乐文件中提取标题、歌手、专辑和时长信息
+ * 当元数据不可用时，从文件名中提取信息作为 fallback
+ */
 void Music::parseMediaMetaData()
 {
-    // 读取歌曲数据
+    // 创建媒体播放器实例用于提取元数据
     QMediaPlayer player;
-    player.setMedia(musicUrl); // 不会等待整个的加载过程
+    player.setMedia(musicUrl);
 
-    // 解析元数据，等待，让主继续处理
+    // 等待元数据可用，处理事件以保持UI响应
     while(!player.isMetaDataAvailable())
     {
-        // 保持主窗口继续活动
         QCoreApplication::processEvents();
     }
 
-    // 解析完成，进行提取
+    // 提取元数据
     if(player.isMetaDataAvailable())
     {
         musicName = player.metaData("Title").toString();
@@ -106,31 +120,29 @@ void Music::parseMediaMetaData()
         albumName = player.metaData("AlbumTitle").toString();
         duration = player.duration();
 
+        // 从文件名提取信息作为元数据缺失时的 fallback
         QString fileName = musicUrl.fileName();
-        int index = fileName.indexOf('-');
+        int separatorIndex = fileName.indexOf('-');
 
-        // musicName为""的处
+        // 处理音乐名称
         if(musicName.isEmpty())
         {
-            if(index != -1)
+            if(separatorIndex != -1)
             {
-                // 找到-的位置
-                musicName = fileName.mid(0, index).trimmed(); // 去除字符串前后空白字符
+                musicName = fileName.mid(0, separatorIndex).trimmed();
             }
             else
             {
-                // 找到.的位置
                 musicName = fileName.mid(0, fileName.indexOf('.')).trimmed();
             }
         }
 
-        // 作者为空
+        // 处理歌手名称
         if(singerName.isEmpty())
         {
-            if(index != -1)
+            if(separatorIndex != -1)
             {
-                // 从-后开始，到.前的位吧置
-                singerName = fileName.mid(index + 1, fileName.indexOf('.') - index - 1).trimmed();
+                singerName = fileName.mid(separatorIndex + 1, fileName.indexOf('.') - separatorIndex - 1).trimmed();
             }
             else
             {
@@ -138,13 +150,11 @@ void Music::parseMediaMetaData()
             }
         }
 
-        // 专辑名为空
+        // 处理专辑名称
         if(albumName.isEmpty())
         {
             albumName = "未知专辑";
         }
-
-        qDebug() << musicName << "" << singerName << "" << albumName << "" << duration;
     }
 }
 
@@ -158,38 +168,46 @@ QString Music::getLrcFilePath() const
     return path;
 }
 
+/**
+ * @brief 将音乐信息插入或更新到数据库
+ * 检测音乐是否已存在，存在则更新状态，不存在则插入新记录
+ */
 void Music::insertMusicToDB()
 {
-    // 1. 检测是否在数据库存在
+    // 检测音乐是否已存在于数据库
     QSqlQuery query;
     query.prepare("SELECT EXISTS (SELECT 1 FROM MusicInfo WHERE musicId = ?)");
     query.addBindValue(musicId);
+    
     if(!query.exec())
     {
-        qDebug()<<"查询失败: "<<query.lastError().text();
+        // 查询执行失败，可在此处添加错误日志
         return;
     }
+    
     if(query.next())
     {
         bool isExists = query.value(0).toBool();
-        if(isExists) // 存在
+        
+        if(isExists)
         {
-            // 存在的话就不需要插入music对象，只需要更新isLike和isHistory属性
+            // 更新现有音乐的收藏和历史状态
             query.prepare("UPDATE MusicInfo SET isLike = ?, isHistory = ? WHERE musicId = ?");
             query.addBindValue(isLike ? 1 : 0);
             query.addBindValue(isHistory ? 1 : 0);
             query.addBindValue(musicId);
+            
             if(!query.exec())
             {
-                qDebug()<<"更新失败: "<<query.lastError().text();
+                // 更新执行失败，可在此处添加错误日志
             }
-            qDebug()<<"更新music信息: "<<musicName<<" "<<musicId;
         }
-        else // 不存在的话直接将music的所有属性插入到数据库
+        else
         {
+            // 插入新音乐记录
             query.prepare("INSERT INTO MusicInfo(musicId, musicName, musicSinger, albumName, musicUrl,\
                                                  duration, isLike, isHistory)\
-                                                 VALUES(?,?,?,?,?,?,?,?)");
+                           VALUES(?,?,?,?,?,?,?,?)");
             query.addBindValue(musicId);
             query.addBindValue(musicName);
             query.addBindValue(singerName);
@@ -198,6 +216,7 @@ void Music::insertMusicToDB()
             query.addBindValue(duration);
             query.addBindValue(isLike ? 1 : 0);
             query.addBindValue(isHistory ? 1 : 0);
+            
             if(!query.exec())
             {
                 qDebug()<<"插入失败: "<<query.lastError().text();

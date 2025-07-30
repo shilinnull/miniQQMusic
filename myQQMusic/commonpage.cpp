@@ -1,6 +1,11 @@
 #include "commonpage.h"
 #include "ui_commonpage.h"
 
+<<<<<<< HEAD
+=======
+
+#include <QPixmap>
+>>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 
 CommonPage::CommonPage(QWidget *parent) :
     QWidget(parent),
@@ -46,7 +51,7 @@ void CommonPage::reFresh(MusicList& musiclist)
 
     // 添加新的歌曲
     addMusicToMusicPage(musiclist);
-    qDebug() << "musicListOfPage: " << musicListOfPage.size();
+
 
     for(auto musicId : musicListOfPage)
     {
@@ -115,7 +120,7 @@ void CommonPage::addMusictoPlayer(MusicList &musiclist, QMediaPlaylist *playList
                 break;
             }
         default:
-            qDebug() << "添加音乐错误";
+
             break;
         }
     }
@@ -125,13 +130,18 @@ QString CommonPage::getMisicIdByIndex(int index) const
 {
     if(index > musicListOfPage.size())
     {
-        qDebug() << "无此歌曲";
+
         return "";
     }
     return musicListOfPage[index];
 }
 
 
+/**
+ * @brief 添加音乐到页面显示列表
+ * 根据页面类型筛选音乐并添加到页面音乐ID列表
+ * @param musiclist 音乐列表数据
+ */
 void CommonPage::addMusicToMusicPage(MusicList &musiclist)
 {
     // 将旧内容清空
@@ -158,7 +168,7 @@ void CommonPage::addMusicToMusicPage(MusicList &musiclist)
             }
             break;
         default:
-            qDebug() << "未支持页面";
+
             break;
         }
     }

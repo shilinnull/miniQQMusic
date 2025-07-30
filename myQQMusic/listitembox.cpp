@@ -1,6 +1,5 @@
 #include "listitembox.h"
 #include "ui_listitembox.h"
-#include <QDebug>
 #include <QMouseEvent>
 
 ListItemBox::ListItemBox(QWidget *parent) :
@@ -10,13 +9,12 @@ ListItemBox::ListItemBox(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // 链接槽函数
+    // 连接喜欢按钮点击信号到槽函数
     connect(ui->likeBtn, &QPushButton::clicked, this, &ListItemBox::onLikeBtnClicked);
 }
 
 ListItemBox::~ListItemBox()
 {
-    qDebug() << "ListItemBox delete";
     delete ui;
 }
 
@@ -38,33 +36,25 @@ void ListItemBox::setAlbumName(const QString &albumName)
 void ListItemBox::setLikeIcon(bool like)
 {
     isLike = like;
-    if(isLike)
-    {
-        ui->likeBtn->setIcon(QIcon(":/images/like_2.png"));
-    }
-    else
-    {
-        ui->likeBtn->setIcon(QIcon(":/images/like_3.png"));
-    }
+    ui->likeBtn->setIcon(QIcon(isLike ? ":/images/like_2.png" : ":/images/like_3.png"));
 }
 
 void ListItemBox::onLikeBtnClicked()
 {
     isLike = !isLike;
-    setIsLike(isLike);
+    setLikeIcon(isLike);
     emit setIsLike(isLike);
 }
 
 void ListItemBox::enterEvent(QEvent *event)
 {
-    (void)event;
+    Q_UNUSED(event);
     setStyleSheet("background-color:#EFEFEF");
-
 }
 
 void ListItemBox::leaveEvent(QEvent *event)
 {
-    (void)event;
+    Q_UNUSED(event);
     setStyleSheet("");
 }
 

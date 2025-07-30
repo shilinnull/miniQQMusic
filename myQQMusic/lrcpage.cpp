@@ -1,6 +1,12 @@
 #include "lrcpage.h"
 #include "ui_lrcpage.h"
 
+<<<<<<< HEAD
+=======
+
+#include <QFile>
+
+>>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 LrcPage::LrcPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LrcPage)
@@ -19,13 +25,13 @@ LrcPage::LrcPage(QWidget *parent) :
 
     // 点击下拉按钮开启动画
     connect(ui->hideBtn, &QPushButton::clicked, this, [=](){
-       qDebug() << "lrcAnimation->start();";
+
        Animation->start();
     });
 
     // 动画结束的时候，窗口隐藏
     connect(Animation, &QPropertyAnimation::finished, this, [=](){
-       qDebug() << "hide();";
+
         hide();
     });
 }
@@ -41,7 +47,7 @@ bool LrcPage::parseLrc(const QString &lrcPath)
     QFile file(lrcPath);
     if(!file.open(QIODevice::ReadOnly))
     {
-        qDebug()<<"打开lrc文件："<<lrcPath<<" 失败!!!";
+
         return false;
     }
 
@@ -84,17 +90,13 @@ bool LrcPage::parseLrc(const QString &lrcPath)
         lrcLines.push_back(LrcWordLine(lineTime, lrcWord));
     }
 
-    for(auto &e : lrcLines)
-    {
-        qDebug()<<e.time<<":"<<e.text;
-    }
 
     return true;
 }
 
 int LrcPage::getLineLrcWordIndex(qint64 pos)
 {
-    qDebug() << pos;
+
     // 将time和QVector中保存的LrcWordLine中的time进行对比
     // 当前歌曲没有lrc歌词文件
     if(lrcLines.empty())
@@ -141,7 +143,7 @@ void LrcPage::showLrcWord(int time)
     }
     else
     {
-        qDebug() << getLrcWordByIndex(index);
+
         ui->line1->setText(getLrcWordByIndex(index-3));
         ui->line2->setText(getLrcWordByIndex(index-2));
         ui->line3->setText(getLrcWordByIndex(index-1));

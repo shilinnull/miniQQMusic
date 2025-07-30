@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QMediaPlayer>
 #include <qmediaplaylist.h>
+#include <QDebug>
+#include <QPixmap>
+
 #include "listitembox.h"
 #include "musiclist.h"
-#include "listitembox.h"
 
 namespace Ui {
 class CommonPage;

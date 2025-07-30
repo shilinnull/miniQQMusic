@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QPropertyAnimation>
+#include <QDebug>
+#include <QFile>
 
 namespace Ui {
 class LrcPage;

@@ -1,8 +1,6 @@
 #include "commonpage.h"
 #include "ui_commonpage.h"
 
-#include <QDebug>
-#include <QPixmap>
 
 CommonPage::CommonPage(QWidget *parent) :
     QWidget(parent),

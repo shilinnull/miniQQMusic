@@ -4,6 +4,10 @@
 #include <QUrl>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QUuid>
+#include <QMediaPlayer>
+#include <QCoreApplication>
+
 
 class Music
 {
@@ -48,7 +52,6 @@ private:
     QString singerName;
     QString albumName;
     qint64 duration;
-
 
     // 标记歌曲的唯一性
     QString musicId;

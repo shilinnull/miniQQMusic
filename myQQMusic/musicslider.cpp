@@ -1,7 +1,6 @@
 #include "musicslider.h"
 #include "ui_musicslider.h"
 
-#include <QDebug>
 
 MusicSlider::MusicSlider(QWidget *parent) :
     QWidget(parent),

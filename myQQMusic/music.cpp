@@ -1,7 +1,5 @@
 #include "music.h"
-#include <QUuid>
-#include <QMediaPlayer>
-#include <QCoreApplication>
+
 
 Music::Music()
     :isLike(false)
@@ -208,12 +206,3 @@ void Music::insertMusicToDB()
         }
     }
 }
-
-
-
-
-
-
-
-
-

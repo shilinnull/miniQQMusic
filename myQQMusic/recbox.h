@@ -5,6 +5,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+#include "recboxitem.h"
+
 namespace Ui {
 class RecBox;
 }

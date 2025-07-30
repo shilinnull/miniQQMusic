@@ -124,6 +124,8 @@ private slots:
     void onLrcWordClicked();
     void on_skin_clicked();
 
+    void on_max_clicked();
+
 private:
     Ui::myQQMusic *ui;
 

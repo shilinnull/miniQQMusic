@@ -692,3 +692,8 @@ void myQQMusic::on_skin_clicked()
 {
     QMessageBox::information(this, "温馨提⽰", "还没开发呢！！！");
 }
+
+void myQQMusic::on_max_clicked()
+{
+    showMaximized();
+}

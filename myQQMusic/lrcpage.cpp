@@ -1,9 +1,6 @@
 #include "lrcpage.h"
 #include "ui_lrcpage.h"
 
-#include <QDebug>
-#include <QFile>
-
 LrcPage::LrcPage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LrcPage)

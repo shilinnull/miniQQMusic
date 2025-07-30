@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include <QPainter>
-
+#include <QGraphicsDropShadowEffect>
+#include <QDebug>
 
 namespace Ui {
 class VolumeTool;

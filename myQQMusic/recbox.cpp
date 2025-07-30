@@ -1,7 +1,6 @@
 #include "recbox.h"
 #include "ui_recbox.h"
 
-#include "recboxitem.h"
 
 RecBox::RecBox(QWidget *parent) :
     QWidget(parent),

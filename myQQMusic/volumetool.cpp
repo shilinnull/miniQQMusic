@@ -1,8 +1,6 @@
 #include "volumetool.h"
 #include "ui_volumetool.h"
 
-#include <QGraphicsDropShadowEffect>
-#include <QDebug>
 
 VolumeTool::VolumeTool(QWidget *parent) :
     QWidget(parent),

@@ -136,7 +136,12 @@ void myQQMusic::initPlayer()
     // 媒体数据发生变化
     connect(player, &QMediaPlayer::metaDataAvailableChanged, this, &myQQMusic::onMetaDataAvailableChanged);
 
+    // 媒体播放器错误处理
+    connect(player, QOverload<QMediaPlayer::Error>::of(&QMediaPlayer::error),
+            this, &myQQMusic::onPlayerError);
+
 }
+
 
 void myQQMusic::initSqlite()
 {
@@ -152,7 +157,8 @@ void myQQMusic::initSqlite()
         QMessageBox::critical(this, "打开QQMusicDB失败", sqlite.lastError().text());
         return;
     }
-    qDebug()<<"SQLite连接成功，并创建 [QQMusic.db] 数据库!!!";
+
+    qDebug()<<"SQLite连接成功，并创建 [myQQMusic.db] 数据库!!!";
     // 4. 创建数据库表
     QString sql = ("CREATE TABLE IF NOT EXISTS musicInfo(\
                     id INTEGER PRIMARY KEY AUTOINCREMENT,\
@@ -533,7 +539,7 @@ void myQQMusic::onPlaybackModeClicked()
     }
     else
     {
-
+        qDebug() << "点击出现错误! ";
     }
 }
 
@@ -553,7 +559,7 @@ void myQQMusic::onPlaybackModeChanged(QMediaPlaylist::PlaybackMode playbackMode)
     }
     else
     {
-
+        qDebug() << "图片出现错误! ";
     }
 }
 
@@ -658,7 +664,6 @@ void myQQMusic::onMetaDataAvailableChanged(bool available)
     }
     else
     {
-
         QString path = ":/images/rec/001.png";
         ui->musicCover->setPixmap(path);
         curPage->setMusicImage(path);
@@ -677,6 +682,11 @@ void myQQMusic::onLrcWordClicked()
     lrcAnimation->start();
 }
 
+void myQQMusic::playMusicByIndex(CommonPage *page, int index)
+{
+    playAllOfCommonPage(page, index);
+}
+
 void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
 {
     // 当前页面
@@ -687,15 +697,33 @@ void myQQMusic::playAllOfCommonPage(CommonPage *page, int index)
     playList->clear();
     // 再添加当前页面到播放列表
     page->addMusictoPlayer(musiclist, playList);
+
+    // 检查播放列表是否为空
+    if (playList->isEmpty()) {
+        qDebug() << "播放列表为空，无法播放音乐";
+        return;
+    }
+
+    // 检查索引是否有效
+    if (index < 0 || index >= playList->mediaCount()) {
+        qDebug() << "索引无效，设置为0";
+        index = 0;
+    }
+
     // 设置当前播放列表索引
     playList->setCurrentIndex(index);
-    // 播放
-    player->play();
-}
 
-void myQQMusic::playMusicByIndex(CommonPage *page, int index)
-{
-    playAllOfCommonPage(page, index);
+    // 检查播放器状态并播放
+    if (player->state() == QMediaPlayer::StoppedState || player->state() == QMediaPlayer::PausedState) {
+        player->play();
+        // 检查是否有错误发生
+        if (player->error() != QMediaPlayer::NoError) {
+            qDebug() << "播放失败，可能是媒体文件无法访问";
+            qDebug() << "错误信息: " << player->errorString();
+        } else {
+            qDebug() << "开始播放音乐，索引: " << index;
+        }
+    }
 }
 
 void myQQMusic::updateBtformAnimal()
@@ -736,5 +764,47 @@ void myQQMusic::on_skin_clicked()
 
 void myQQMusic::on_max_clicked()
 {
+    // 临时移除阴影效果
+    this->setGraphicsEffect(nullptr);
     showMaximized();
+    // 重新添加阴影效果
+    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
+    shadowEffect->setOffset(0, 0);
+    shadowEffect->setColor("#000000");
+    shadowEffect->setBlurRadius(10);
+    this->setGraphicsEffect(shadowEffect);
+}
+
+void myQQMusic::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    // 确保阴影效果正确应用
+    if(this->graphicsEffect())
+    {
+        this->graphicsEffect()->update();
+    }
+}
+
+void myQQMusic::onPlayerError(QMediaPlayer::Error error)
+{
+    // 获取错误信息
+    QString errorString = player->errorString();
+    qDebug() << "媒体播放器错误: " << error << " - " << errorString;
+
+    // 特定处理0x80040266错误（DirectShow格式不支持）
+    if (errorString.contains("0x80040266")) {
+        qDebug() << "检测到DirectShow格式不支持错误: 0x80040266";
+        QMessageBox::warning(this, "播放错误", "无法播放当前媒体文件，格式可能不受支持。\n错误码: 0x80040266");
+
+        // 尝试跳转到下一首
+        if (playList->mediaCount() > playList->currentIndex() + 1) {
+            playList->next();
+            player->play();
+        } else {
+            player->stop();
+        }
+    } else {
+        // 其他错误处理
+        QMessageBox::warning(this, "播放错误", "播放媒体时发生错误: " + errorString);
+    }
 }

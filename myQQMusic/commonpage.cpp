@@ -1,11 +1,6 @@
 #include "commonpage.h"
 #include "ui_commonpage.h"
 
-<<<<<<< HEAD
-=======
-
-#include <QPixmap>
->>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 
 CommonPage::CommonPage(QWidget *parent) :
     QWidget(parent),
@@ -104,19 +99,28 @@ void CommonPage::addMusictoPlayer(MusicList &musiclist, QMediaPlaylist *playList
         {
             if(music.getIsLike())
             {
-                playList->addMedia(music.getMusicUrl());
+                bool result = playList->addMedia(music.getMusicUrl());
+                if (!result) {
+                    qDebug() << "添加媒体失败: " << music.getMusicUrl().toString();
+                }
             }
             break;
         }
         case LOCAL_PAGE:
         {
-            playList->addMedia(music.getMusicUrl());
+            bool result = playList->addMedia(music.getMusicUrl());
+            if (!result) {
+                qDebug() << "添加媒体失败: " << music.getMusicUrl().toString();
+            }
             break;
         }
         case HISTORY_PAGE:
             if(music.getIsHistory())
             {
-                playList->addMedia(music.getMusicUrl());
+                bool result = playList->addMedia(music.getMusicUrl());
+                if (!result) {
+                    qDebug() << "添加媒体失败: " << music.getMusicUrl().toString();
+                }
                 break;
             }
         default:

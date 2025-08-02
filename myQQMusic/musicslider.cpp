@@ -28,6 +28,15 @@ void MusicSlider::moveSilder()
 void MusicSlider::setStep(float bf)
 {
     currentPos = maxWidth * bf;
+    // 确保currentPos不会为负值或超过maxWidth
+    if(currentPos < 0)
+    {
+        currentPos = 0;
+    }
+    if(currentPos > maxWidth)
+    {
+        currentPos = maxWidth;
+    }
     moveSilder();
 }
 

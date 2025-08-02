@@ -69,7 +69,7 @@ MusicList::iterator MusicList::findMusicByMusicid(const QString &musicId)
  \details 遍历音乐列表，对每个音乐项调用insertMusicToDB方法保存到数据库 */
 void MusicList::writeToDB()
 {
-    for(auto music : musicList)
+    for(auto &music : musicList)
     {
         music.insertMusicToDB();
     }

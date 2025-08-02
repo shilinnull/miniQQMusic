@@ -37,15 +37,8 @@ class myQQMusic : public QWidget
     Q_OBJECT
 
 public:
-    /**
-     * @brief 构造函数
-     * @param parent 父窗口指针
-     */
     myQQMusic(QWidget *parent = nullptr);
     
-    /**
-     * @brief 析构函数
-     */
     ~myQQMusic();
 
     /**
@@ -143,11 +136,24 @@ protected:
      */
     void mouseMoveEvent(QMouseEvent* event) override;
 
+    /**
+     * @brief 重写窗口大小变化事件
+     * 更新阴影效果和UI元素布局
+     * @param event 窗口大小变化事件对象
+     */
+    void resizeEvent(QResizeEvent *event) override;
+
 private slots:
     /**
      * @brief 退出按钮点击事件
      */
     void on_quit_clicked();
+
+    /**
+     * @brief 媒体播放器错误处理槽函数
+     * @param error 错误类型
+     */
+    void onPlayerError(QMediaPlayer::Error error);
 
     /**
      * @brief 音量按钮点击事件
@@ -244,15 +250,9 @@ private slots:
      * @param available 是否可用
      */
     void onMetaDataAvailableChanged(bool available);
-    
-    /**
-     * @brief 歌词显示按钮点击事件
-     */
+
     void onLrcWordClicked();
     
-    /**
-     * @brief 皮肤按钮点击事件
-     */
     void on_skin_clicked();
 
     void on_max_clicked();
@@ -271,6 +271,5 @@ private:
     LrcPage* lrcPage;                // 歌词显示窗口
     QPropertyAnimation* lrcAnimation;// 歌词窗口动画
     QSqlDatabase sqlite;             // 数据库连接
-
 };
 #endif // MYQQMUSIC_H

@@ -1,8 +1,6 @@
 #include "music.h"
-<<<<<<< HEAD
 
-=======
->>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
+#include <QTime>
 
 /**
  * @brief Music 默认构造函数
@@ -106,10 +104,18 @@ void Music::parseMediaMetaData()
     QMediaPlayer player;
     player.setMedia(musicUrl);
 
-    // 等待元数据可用，处理事件以保持UI响应
-    while(!player.isMetaDataAvailable())
+    // 等待元数据可用，添加超时机制
+    int timeout = 3000; // 3秒超时
+    QTime startTime = QTime::currentTime();
+    while(!player.isMetaDataAvailable() && startTime.msecsTo(QTime::currentTime()) < timeout)
     {
-        QCoreApplication::processEvents();
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+
+    // 检查是否发生错误
+    if (player.error() != QMediaPlayer::NoError) {
+        qDebug() << "媒体播放器错误: " << player.errorString();
+        return;
     }
 
     // 提取元数据
@@ -120,7 +126,6 @@ void Music::parseMediaMetaData()
         albumName = player.metaData("AlbumTitle").toString();
         duration = player.duration();
 
-        // 从文件名提取信息作为元数据缺失时的 fallback
         QString fileName = musicUrl.fileName();
         int separatorIndex = fileName.indexOf('-');
 

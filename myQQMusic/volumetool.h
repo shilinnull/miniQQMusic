@@ -2,12 +2,9 @@
 #define VOLUMETOOL_H
 
 #include <QWidget>
-<<<<<<< HEAD
 #include <QPainter>
 #include <QGraphicsDropShadowEffect>
 #include <QDebug>
-=======
->>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 
 namespace Ui {
 class VolumeTool;

@@ -66,3 +66,16 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Resource.qrc
+
+DISTFILES += \
+    musics/alan/Alan Walker - Alone.mp3 \
+    musics/alan/Alan Walker - Fade.mp3 \
+    musics/alan/Alan Walker - Faded.mp3 \
+    musics/alan/Alan Walker - The Spectre.mp3 \
+    musics/alan/Alan Walker&Sabrina Carpenter&Farruko - On My Way(Explicit).mp3 \
+    musics/alan/Alan Walker,AuRa,Tomine Harket - Darkside.mp3 \
+    musics/alan/Alan Walker,Coldplay - Hymn For The Weekend [Remix].mp3 \
+    musics/alan/Alan Walker,Iselin Solheim - Sing Me to Sleep.mp3 \
+    musics/alan/Alan Walker,Noah Cyrus,Digital Farm Animals - All Falls Down.mp3 \
+    musics/alan/Alan Walker,Sabrina Carpenter,Farruko - On My Way.mp3 \
+    musics/alan/Alan Walker,Sorana - Lost Control.mp3

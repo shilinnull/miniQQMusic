@@ -1,10 +1,5 @@
 #include "recbox.h"
 #include "ui_recbox.h"
-<<<<<<< HEAD
-
-=======
-#include "recboxitem.h"
->>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 
 /**
  * @brief RecBox::RecBox 构造函数

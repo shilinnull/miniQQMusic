@@ -9,24 +9,14 @@ namespace Ui {
 class BtForm;
 }
 
-/**
- * @brief 自定义按钮组件，用于页面导航切换
- * 支持图标、文本显示，点击动画效果和状态切换
- */
 class BtForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    /**
-     * @brief 构造函数
-     * @param parent 父窗口指针
-     */
+
     explicit BtForm(QWidget *parent = nullptr);
-    
-    /**
-     * @brief 析构函数
-     */
+
     ~BtForm();
 
     /**

@@ -3,13 +3,10 @@
 
 #include <QWidget>
 #include <QPropertyAnimation>
-<<<<<<< HEAD
 #include <QDebug>
 #include <QFile>
-=======
 #include <QString>
 #include <QVector>
->>>>>>> c765204f81f562b90e8f9ac3da79b36f5bd04213
 
 namespace Ui {
 class LrcPage;

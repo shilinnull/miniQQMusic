@@ -210,6 +210,12 @@
                    <height>40</height>
                   </size>
                  </property>
+                 <property name="toolTip">
+                  <string/>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>-1</number>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#Search
 {
@@ -217,6 +223,18 @@
 	border-radius: 17px;    /*设置四个⻆的圆⻆*/
 	padding-left: 17px;    /*内部⽂字到边的距离*/
 }</string>
+                 </property>
+                 <property name="inputMask">
+                  <string/>
+                 </property>
+                 <property name="maxLength">
+                  <number>32767</number>
+                 </property>
+                 <property name="frame">
+                  <bool>true</bool>
+                 </property>
+                 <property name="placeholderText">
+                  <string>搜索音乐</string>
                  </property>
                 </widget>
                </item>

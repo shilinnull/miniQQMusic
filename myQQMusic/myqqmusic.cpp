@@ -115,11 +115,12 @@ void myQQMusic::initPlayer()
     // 设置播放模式：默认为列表中⽂件循环播放
     playList->setPlaybackMode(QMediaPlaylist::Loop);
 
-    // 讲播放列表设置到播放起
+    // 讲播放列表设置到播放器
     player->setPlaylist(playList);
 
     // 默认音量大小
     player->setVolume(20);
+
 
     // 在播放和暂停中切换
     connect(player, &QMediaPlayer::stateChanged, this, &myQQMusic::onPlayStateChanged);
@@ -249,18 +250,17 @@ QJsonArray myQQMusic::RandPicutre()
     // 保存图片文件名
     QVector<QString> vecImageName;
     vecImageName<<"001.png"<<"003.png"<<"004.png"<<"005.png"<<"006.png"<<"007.png"
-                <<"008.png"<<"009.png"<<"010.png"<<"011.png"<<"012.png"<<"013.png"
-                <<"014.png"<<"015.png"<<"016.png"<<"017.png"<<"018.png"<<"019.png"
-                <<"020.png"<<"021.png"<<"022.png"<<"023.png"<<"024.png"<<"025.png"
-                <<"026.png"<<"027.png"<<"028.png"<<"029.png"<<"030.png"<<"031.png"
-                <<"032.png"<<"033.png"<<"034.png"<<"035.png"<<"036.png"<<"037.png"
-                <<"038.png"<<"039.png"<<"040.png";
+                <<"008.png"<<"009.png"<<"010.png"<<"011.png"<<"012.png"<<"013.png"<<"014.png"
+                <<"015.png"<<"016.png"<<"017.png"<<"018.png"<<"019.png"<<"020.png"<<"021.png"
+                <<"022.png"<<"023.png"<<"024.png"<<"025.png"<<"026.png"<<"027.png"<<"028.png"
+                <<"029.png"<<"030.png"<<"031.png"<<"032.png"<<"033.png"<<"034.png"<<"035.png"
+                <<"036.png"<<"037.png"<<"038.png"<<"039.png"<<"040.png";
     // 随机打散
     std::random_shuffle(vecImageName.begin(), vecImageName.end());
 
     // 设置图片以及名字
     QJsonArray objArray;
-    for(int i = 0;i < vecImageName.size(); ++i)
+    for(int i = 0; i < vecImageName.size(); ++i)
     {
         // 构造路径
         QJsonObject obj;
@@ -487,10 +487,11 @@ void myQQMusic::onPlayClicked()
     }
     else if(player->state() == QMediaPlayer::StoppedState)
     {
-        player->play();
+        playAllOfCommonPage(ui->likePage, 0);
     }
     else
     {
+        QMessageBox::critical(nullptr, "播放错误", "播放错误");
         qDebug() << "onPlayClicked failed!";
     }
 }

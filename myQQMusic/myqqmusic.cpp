@@ -49,7 +49,8 @@ void myQQMusic::InitUi()
     shadowEffect->setOffset(0, 0);// 设置阴影偏移
     shadowEffect->setColor("#000000");// 设置阴影颜⾊：⿊⾊
     shadowEffect->setBlurRadius(10); // 设置阴影的模糊半径
-    this->setGraphicsEffect(shadowEffect);
+    // this->setGraphicsEffect(shadowEffect); // 不能这样设置，否则会报参数错误
+    ui->background->setGraphicsEffect(shadowEffect); // 应该设置到背景上
 
     // 添加托盘图标
     QSystemTrayIcon *trayIcon = new QSystemTrayIcon(this);

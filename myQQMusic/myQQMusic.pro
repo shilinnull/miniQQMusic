@@ -1,6 +1,6 @@
 QT       += core gui multimedia sql
 
-DEFINES += QT_NO_DEBUG_OUTPUT
+#DEFINES += QT_NO_DEBUG_OUTPUT
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

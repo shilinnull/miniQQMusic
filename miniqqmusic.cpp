@@ -395,7 +395,13 @@ void miniQQMusic::on_addLocal_clicked()
     // 5. 设置对话框默认的打开路径，设置目录当前工程所在目录
     QDir dir(QDir::currentPath());
     dir.cdUp();
-    QString musicPath = dir.path() + "/myQQMusic/musics/";
+
+    // 查看是否有musics文件夹，没有的话就创建
+    QString musicPath = dir.path() + "/musics/";
+    QDir musicDir(musicPath);
+    if (!musicDir.exists()) {
+        musicDir.mkpath(musicPath); // 创建musics文件夹
+    }
     fileDialog.setDirectory(musicPath); // 设置路径
 
     // 6. 显示对话框
